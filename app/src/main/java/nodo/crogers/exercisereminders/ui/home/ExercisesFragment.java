@@ -29,7 +29,7 @@ public class ExercisesFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        Button button = (Button) root.findViewById(R.id.button);
+        Button button = root.findViewById(R.id.button);
         button.setOnClickListener(this::buttonClicked);
 
         return root;

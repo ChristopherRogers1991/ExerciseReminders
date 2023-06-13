@@ -37,7 +37,7 @@ public class ExerciseAlarmReceiver extends BroadcastReceiver {
                 .setAutoCancel(false); // clear notification after click
         Intent notificationIntent = new Intent(context, ExerciseAlarmReceiver.class);
         PendingIntent pi = PendingIntent.getActivity(
-                context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
         notificationBuilder.setContentIntent(pi);
         notificationManager.notify(0, notificationBuilder.build());
     }

@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ExerciseAlarmReceiver.scheduleNext(this);
-        ExerciseAlarmReceiver.showNotification(this);
     }
 
     @Override
