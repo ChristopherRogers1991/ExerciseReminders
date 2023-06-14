@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             notificationManager.createNotificationChannel(channel);
         }
 
-        ExerciseAlarmReceiver.scheduleNext(this);
+        ExerciseAlarm.scheduleNext(this);
     }
 
     @Override

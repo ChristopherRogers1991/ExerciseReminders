@@ -1,8 +1,7 @@
 package nodo.crogers.exercisereminders;
 
+import android.annotation.SuppressLint;
 import android.app.AlarmManager;
-import android.app.Notification;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
@@ -15,13 +14,15 @@ import java.util.Random;
 
 import nodo.crogers.exercisereminders.ui.home.ExercisesViewModel;
 
-public class ExerciseAlarmReceiver extends BroadcastReceiver {
+public class ExerciseAlarm extends BroadcastReceiver {
     private static final Random random = new Random();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        scheduleNext(context);
-        showNotification(context);
+            if (!PreferenceManager.getInstance(context).isPaused()) {
+                scheduleNext(context);
+                showNotification(context);
+            }
     }
 
     public static void showNotification(Context context) {
@@ -35,7 +36,7 @@ public class ExerciseAlarmReceiver extends BroadcastReceiver {
                 .setContentTitle("Exercise!") // title for notification
                 .setContentText(exercise)// message for notification
                 .setAutoCancel(false); // clear notification after click
-        Intent notificationIntent = new Intent(context, ExerciseAlarmReceiver.class);
+        Intent notificationIntent = new Intent(context, ExerciseAlarm.class);
         PendingIntent pi = PendingIntent.getActivity(
                 context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
         notificationBuilder.setContentIntent(pi);
@@ -44,7 +45,7 @@ public class ExerciseAlarmReceiver extends BroadcastReceiver {
 
     public static void scheduleNext(Context context) {
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-        Intent next = new Intent(context, ExerciseAlarmReceiver.class);
+        Intent next = new Intent(context, ExerciseAlarm.class);
         next.setAction("exercise");
         next.putExtra("key", "value");
         int requestCode = 0;
