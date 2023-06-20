@@ -67,15 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     this, new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 100);
         }
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
-                    NOTIFICATION_CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT);
-            channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
-            NotificationManager notificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.createNotificationChannel(channel);
-        }
+        NotificationChannel channel = new NotificationChannel(NOTIFICATION_CHANNEL_ID,
+                NOTIFICATION_CHANNEL_NAME,
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(NOTIFICATION_CHANNEL_DESCRIPTION);
+        NotificationManager notificationManager =
+                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.createNotificationChannel(channel);
 
         ExerciseAlarm.scheduleNext(this);
     }

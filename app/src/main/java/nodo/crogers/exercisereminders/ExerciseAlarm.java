@@ -1,6 +1,5 @@
 package nodo.crogers.exercisereminders;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -10,19 +9,32 @@ import android.content.Intent;
 
 import androidx.core.app.NotificationCompat;
 
+import java.time.Clock;
+import java.time.OffsetDateTime;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
 import java.util.Random;
 
 import nodo.crogers.exercisereminders.ui.home.ExercisesViewModel;
 
 public class ExerciseAlarm extends BroadcastReceiver {
     private static final Random random = new Random();
+    private static final Clock clock = Clock.systemDefaultZone();
 
     @Override
     public void onReceive(Context context, Intent intent) {
-            if (!PreferenceManager.getInstance(context).isPaused()) {
-                scheduleNext(context);
-                showNotification(context);
-            }
+        PreferenceManager preferenceManager = PreferenceManager.getInstance(context);
+        OffsetDateTime startTime =
+                getTodayAt(preferenceManager.startHour(), preferenceManager.startMinute());
+        OffsetDateTime endTime =
+                getTodayAt(preferenceManager.endHour(), preferenceManager.endMinute());
+        OffsetDateTime now = OffsetDateTime.now(clock);
+        if (!PreferenceManager.getInstance(context).isPaused()
+                && !now.isBefore(startTime)
+                && ! now.isAfter(endTime)) {
+            scheduleNext(context);
+            showNotification(context);
+        }
     }
 
     public static void showNotification(Context context) {
@@ -31,11 +43,12 @@ public class ExerciseAlarm extends BroadcastReceiver {
         String exercise = ExercisesViewModel.EXERCISES[randomIndex];
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round) // notification icon
-                .setContentTitle("Exercise!") // title for notification
-                .setContentText(exercise)// message for notification
-                .setAutoCancel(false); // clear notification after click
+        NotificationCompat.Builder notificationBuilder =
+                new NotificationCompat.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentTitle("Exercise!")
+                .setContentText(exercise)
+                .setAutoCancel(false);
         Intent notificationIntent = new Intent(context, ExerciseAlarm.class);
         PendingIntent pi = PendingIntent.getActivity(
                 context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
@@ -49,13 +62,57 @@ public class ExerciseAlarm extends BroadcastReceiver {
         next.setAction("exercise");
         next.putExtra("key", "value");
         int requestCode = 0;
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context, requestCode, next, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setWindow(
                 AlarmManager.RTC_WAKEUP,
-                // TODO - set this for the top of the next hour
-                System.currentTimeMillis() + 1000,
+                nextTime(context),
                 10 * 60 * 1000,
                 pendingIntent);
+    }
+
+    private static long nextTime(Context context) {
+        PreferenceManager preferenceManager = PreferenceManager.getInstance(context);
+
+        int startHour = preferenceManager.startHour();
+        int startMinute = preferenceManager.startMinute();
+        OffsetDateTime startTime = getTodayAt(startHour, startMinute);
+        OffsetDateTime endTime =
+                getTodayAt(preferenceManager.endHour(), preferenceManager.endMinute());
+        OffsetDateTime now = OffsetDateTime.now(clock);
+        int currentHour = now.get(ChronoField.HOUR_OF_DAY);
+
+        OffsetDateTime next;
+        if (now.isBefore(startTime)) {
+            next = now
+                    .withHour(startHour)
+                    .withMinute(startMinute);
+        }
+        else if (now.isAfter(endTime)) {
+            next = now
+                    .plusDays(1)
+                    .withHour(startHour)
+                    .withMinute(startMinute);
+        }
+        else {
+            next = now
+                    .withHour(currentHour + 1)
+                    .withMinute(startMinute);
+        }
+
+        return next
+                .truncatedTo(ChronoUnit.MINUTES)
+                .toInstant()
+                .toEpochMilli();
+
+    }
+
+    private static OffsetDateTime getTodayAt(int hour, int minute) {
+        OffsetDateTime now = OffsetDateTime.now(clock);
+        return now
+                .withHour(hour)
+                .withMinute(minute)
+                .truncatedTo(ChronoUnit.MINUTES);
     }
 }
