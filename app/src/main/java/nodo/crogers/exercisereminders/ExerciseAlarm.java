@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
@@ -62,13 +63,14 @@ public class ExerciseAlarm extends BroadcastReceiver {
         next.setAction("exercise");
         next.putExtra("key", "value");
         int requestCode = 0;
+        int windowLengthInMs = 10 * 60 * 1000;
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context, requestCode, next, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.setWindow(
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
-                10 * 60 * 1000,
+                windowLengthInMs,
                 pendingIntent);
     }
 
@@ -101,8 +103,11 @@ public class ExerciseAlarm extends BroadcastReceiver {
                     .withMinute(startMinute);
         }
 
+        next = next.truncatedTo(ChronoUnit.MINUTES);
+
+        Log.d("SCHEDULE", "nextTime: " + next);
+
         return next
-                .truncatedTo(ChronoUnit.MINUTES)
                 .toInstant()
                 .toEpochMilli();
 
