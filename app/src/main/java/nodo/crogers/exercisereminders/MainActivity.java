@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String NOTIFICATION_CHANNEL_ID = "Exercise_Reminders";
     public static final String NOTIFICATION_CHANNEL_NAME = "Exercise Reminders";
-    public static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Reminders to perfom exercises";
+    public static final String NOTIFICATION_CHANNEL_DESCRIPTION = "Reminders to perform exercises";
 
 
     private AppBarConfiguration mAppBarConfiguration;
