@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.ui.gallery;
+package nodo.crogers.exercisereminders.ui.settings;
 
 import android.content.Context;
 import android.os.Bundle;

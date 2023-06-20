@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.ui.gallery;
+package nodo.crogers.exercisereminders.ui.settings;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
