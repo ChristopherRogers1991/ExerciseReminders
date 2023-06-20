@@ -10,6 +10,7 @@ public class PreferenceManager {
     private static final String START_MINUTE = "start-minute";
     private static final String END_HOUR = "end-hour";
     private static final String END_MINUTE = "end-minute";
+    private static String FREQUENCY = "frequency";
     private static PreferenceManager instance;
     private static SharedPreferences sharedPreferences;
 
@@ -36,6 +37,12 @@ public class PreferenceManager {
         sharedPreferences.edit().putBoolean(PAUSED, !isPaused).apply();
     }
 
+    public void setFrequency(int minutes) {
+        sharedPreferences.edit()
+                .putInt(FREQUENCY, minutes)
+                .apply();
+    }
+
     public void setStartTime(int hour, int minute) {
         sharedPreferences.edit()
                 .putInt(START_HOUR, hour)
@@ -48,6 +55,10 @@ public class PreferenceManager {
                 .putInt(END_HOUR, hour)
                 .putInt(END_MINUTE, minute)
                 .apply();
+    }
+
+    public int frequency() {
+        return sharedPreferences.getInt(FREQUENCY, 60);
     }
 
     public int startHour() {

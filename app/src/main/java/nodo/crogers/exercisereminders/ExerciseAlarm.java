@@ -58,6 +58,8 @@ public class ExerciseAlarm extends BroadcastReceiver {
     }
 
     public static void scheduleNext(Context context) {
+        // TODO - clear any already scheduled notifications
+        // TODO - base the next time on the time the notification _should_ have fone off? (as opposed to when in the window it did go off).
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent next = new Intent(context, ExerciseAlarm.class);
         next.setAction("exercise");
@@ -83,7 +85,6 @@ public class ExerciseAlarm extends BroadcastReceiver {
         OffsetDateTime endTime =
                 getTodayAt(preferenceManager.endHour(), preferenceManager.endMinute());
         OffsetDateTime now = OffsetDateTime.now(clock);
-        int currentHour = now.get(ChronoField.HOUR_OF_DAY);
 
         OffsetDateTime next;
         if (now.isBefore(startTime)) {
@@ -98,9 +99,9 @@ public class ExerciseAlarm extends BroadcastReceiver {
                     .withMinute(startMinute);
         }
         else {
+            int frequency = preferenceManager.frequency();
             next = now
-                    .withHour(currentHour + 1)
-                    .withMinute(startMinute);
+                    .plusMinutes(frequency);
         }
 
         next = next.truncatedTo(ChronoUnit.MINUTES);
