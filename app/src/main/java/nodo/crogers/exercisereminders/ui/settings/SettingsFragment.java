@@ -49,9 +49,14 @@ public class SettingsFragment extends Fragment {
         pauseButton.setOnClickListener(_view -> {
             preferenceManager.togglePaused();
             setPauseButtonText.run();
+            String message;
             if (!preferenceManager.isPaused()) {
+                message = "Notifications resumed";
                 ExerciseAlarm.scheduleNext(Objects.requireNonNull(context));
+            } else {
+                message = "Notifications paused";
             }
+            Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         });
 
         Button startTimeButton = root.findViewById(R.id.startTimeButton);
