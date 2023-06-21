@@ -78,11 +78,10 @@ public class ExerciseAlarm extends BroadcastReceiver {
         int windowLengthInMs = 10 * 60 * 1000;
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, requestCode, next, PendingIntent.FLAG_IMMUTABLE);
-        alarmManager.setWindow(
+                context, requestCode, next, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
-                windowLengthInMs,
                 pendingIntent);
     }
 
