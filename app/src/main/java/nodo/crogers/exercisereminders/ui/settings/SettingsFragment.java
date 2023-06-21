@@ -4,6 +4,7 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -22,7 +23,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.util.Locale;
-import java.util.Objects;
 
 import nodo.crogers.exercisereminders.ExerciseAlarm;
 import nodo.crogers.exercisereminders.PreferenceManager;
@@ -41,18 +41,26 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        Context context = this.getContext();
+        Context context = this.requireContext();
         PreferenceManager preferenceManager = PreferenceManager.getInstance(context);
         Button pauseButton = root.findViewById(R.id.pauseButton);
-        Runnable setPauseButtonText = () -> pauseButton.setText(preferenceManager.isPaused() ? "Resume" : "Pause");
-        setPauseButtonText.run();
+        Runnable updatePauseButton = () -> {
+            if (preferenceManager.isPaused()) {
+                pauseButton.setText("Resume");
+                pauseButton.setBackgroundColor(context.getColor(R.color.florescent_cyan));
+            } else {
+                pauseButton.setText("Pause");
+                pauseButton.setBackgroundColor(context.getColor(R.color.bleu_de_france));
+            }
+        };
+        updatePauseButton.run();
         pauseButton.setOnClickListener(_view -> {
             preferenceManager.togglePaused();
-            setPauseButtonText.run();
+            updatePauseButton.run();
             String message;
             if (!preferenceManager.isPaused()) {
                 message = "Notifications resumed";
-                ExerciseAlarm.scheduleNext(Objects.requireNonNull(context));
+                ExerciseAlarm.scheduleNext(context);
             } else {
                 message = "Notifications paused";
             }
@@ -63,12 +71,12 @@ public class SettingsFragment extends Fragment {
         Runnable setStartButtonText = () -> startTimeButton.setText(startTimeButtonText(preferenceManager));
         setStartButtonText.run();
         startTimeButton.setOnClickListener(_view -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     preferenceManager.setStartTime(hourOfDay, minute);
                     setStartButtonText.run();
-                    ExerciseAlarm.scheduleNext(Objects.requireNonNull(context));
+                    ExerciseAlarm.scheduleNext(context);
                 }
             }, 8, 0, false);
             timePickerDialog.show();
@@ -78,7 +86,7 @@ public class SettingsFragment extends Fragment {
         Runnable setEndButtonText = () -> endTimeButton.setText(endTimeButtonText(preferenceManager));
         setEndButtonText.run();
         endTimeButton.setOnClickListener(_view -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context, new TimePickerDialog.OnTimeSetListener() {
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
                 @Override
                 public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                     preferenceManager.setEndTime(hourOfDay, minute);
@@ -104,7 +112,7 @@ public class SettingsFragment extends Fragment {
                     }
                     preferenceManager.setFrequency(frequency);
                     setFrequencyInputText.run();
-                    ExerciseAlarm.scheduleNext(Objects.requireNonNull(context));
+                    ExerciseAlarm.scheduleNext(context);
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
                     if(imm.isAcceptingText()) {
                         imm.hideSoftInputFromWindow(container.findFocus().getWindowToken(), 0);
