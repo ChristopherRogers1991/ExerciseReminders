@@ -39,9 +39,9 @@ public class ExerciseAlarm extends BroadcastReceiver {
         if (!PreferenceManager.getInstance(context).isPaused()
                 && !now.isBefore(startTime)
                 && !now.isAfter(endTime)) {
-            scheduleNext(context);
             showNotification(context);
         }
+        scheduleNext(context);
     }
 
     public static void showNotification(Context context) {
@@ -75,7 +75,6 @@ public class ExerciseAlarm extends BroadcastReceiver {
         next.setAction("exercise");
         next.putExtra("key", "value");
         int requestCode = 0;
-        int windowLengthInMs = 10 * 60 * 1000;
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context, requestCode, next, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
