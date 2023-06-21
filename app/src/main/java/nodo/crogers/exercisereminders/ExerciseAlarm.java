@@ -1,14 +1,18 @@
 package nodo.crogers.exercisereminders;
 
 import android.app.AlarmManager;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.util.Log;
 
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
@@ -19,6 +23,8 @@ import java.util.Random;
 import nodo.crogers.exercisereminders.ui.home.ExercisesViewModel;
 
 public class ExerciseAlarm extends BroadcastReceiver {
+    private static final String NOTIFICATION_GROUP_ID =
+            "nodo.crogers.exerciseremoinders.NOTIFICATIONS";
     private static final Random random = new Random();
     private static final Clock clock = Clock.systemDefaultZone();
 
@@ -32,7 +38,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
         OffsetDateTime now = OffsetDateTime.now(clock);
         if (!PreferenceManager.getInstance(context).isPaused()
                 && !now.isBefore(startTime)
-                && ! now.isAfter(endTime)) {
+                && !now.isAfter(endTime)) {
             scheduleNext(context);
             showNotification(context);
         }
@@ -44,17 +50,21 @@ public class ExerciseAlarm extends BroadcastReceiver {
         String exercise = ExercisesViewModel.EXERCISES[randomIndex];
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentTitle("Exercise!")
-                .setContentText(exercise)
-                .setAutoCancel(false);
-        Intent notificationIntent = new Intent(context, ExerciseAlarm.class);
-        PendingIntent pi = PendingIntent.getActivity(
-                context, 0, notificationIntent, PendingIntent.FLAG_IMMUTABLE);
-        notificationBuilder.setContentIntent(pi);
-        notificationManager.notify(0, notificationBuilder.build());
+        Notification.Builder notificationBuilder =
+                new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setContentTitle("Exercise!")
+                        .setContentText(exercise)
+                        .setGroup(NOTIFICATION_GROUP_ID)
+                        .setAutoCancel(false);
+        Notification.Builder summaryNotificationBuilder =
+                new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
+                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setGroup(NOTIFICATION_GROUP_ID)
+                        .setGroupSummary(true)
+                        .setAutoCancel(false);
+        notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());
+        notificationManager.notify(0, summaryNotificationBuilder.build());
     }
 
     public static void scheduleNext(Context context) {
@@ -68,7 +78,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
         int windowLengthInMs = 10 * 60 * 1000;
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, requestCode, next, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                context, requestCode, next, PendingIntent.FLAG_IMMUTABLE);
         alarmManager.setWindow(
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
