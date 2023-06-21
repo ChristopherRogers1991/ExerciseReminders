@@ -13,4 +13,10 @@
         <item name="android:statusBarColor">?attr/colorPrimary</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="DialogTheme" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorAccent">?attr/colorSecondary</item>
+        <item name="colorControlNormal">@color/gray</item>
+        <item name="colorOnPrimary">@color/black</item>
+    </style>
 </resources>
