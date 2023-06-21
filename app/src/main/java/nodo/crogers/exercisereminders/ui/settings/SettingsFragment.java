@@ -104,15 +104,19 @@ public class SettingsFragment extends Fragment {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    int frequency = Integer.parseInt(frequencyInput.getText().toString());
-                    if (frequency < 10) {
-                        frequency = 10;
-                        Toast.makeText(context, "Minimum: 10 minutes", Toast.LENGTH_SHORT)
-                                .show();
+                    try {
+                        int frequency = Integer.parseInt(frequencyInput.getText().toString());
+                        if (frequency < 10) {
+                            frequency = 10;
+                            Toast.makeText(context, "Minimum: 10 minutes", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                        preferenceManager.setFrequency(frequency);
+                        ExerciseAlarm.scheduleNext(context);
+                    } catch (Exception e) {
+                        // Do nothing
                     }
-                    preferenceManager.setFrequency(frequency);
                     setFrequencyInputText.run();
-                    ExerciseAlarm.scheduleNext(context);
                     InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
                     if(imm.isAcceptingText()) {
                         imm.hideSoftInputFromWindow(container.findFocus().getWindowToken(), 0);
