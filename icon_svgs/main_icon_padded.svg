@@ -2,47 +2,21 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="90mm"
-   height="99.040283mm"
-   viewBox="0 0 90 99.040283"
+   width="189.99998mm"
+   height="190mm"
+   viewBox="0 0 189.99998 190"
    version="1.1"
    id="svg5"
-   sodipodi:docname="clock.svg"
-   inkscape:export-filename="../bb6ae874/main_icon_padded.svg"
-   inkscape:export-xdpi="95.955544"
-   inkscape:export-ydpi="95.955544"
-   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview7"
-     pagecolor="#ffffff"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     inkscape:showpageshadow="2"
-     inkscape:pageopacity="0.0"
-     inkscape:pagecheckerboard="0"
-     inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     showgrid="false"
-     inkscape:zoom="1.3346908"
-     inkscape:cx="360.38311"
-     inkscape:cy="342.77603"
-     inkscape:window-width="1920"
-     inkscape:window-height="1016"
-     inkscape:window-x="0"
-     inkscape:window-y="0"
-     inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" />
   <defs
      id="defs2" />
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
-     id="layer1"
-     transform="translate(-50.000001,-44.999999)">
+     id="layer1">
+    <path
+       id="rect111"
+       style="fill:#000000;stroke-width:0.261553"
+       d="m 94.574019,63 a 6.8894514,6.9503967 0 0 0 -6.889536,6.949973 6.8894514,6.9503967 0 0 0 6.889536,6.950484 6.8894514,6.9503967 0 0 0 6.889031,-6.950484 A 6.8894514,6.9503967 0 0 0 94.574019,63 Z m -21.65429,8.936191 -4.919718,0.121093 0.288378,11.911674 2.085273,-0.05132 2.834446,-0.06978 14.301923,-0.352502 v 28.087234 h 0.0016 V 133 h 5.904878 v -21.41741 h 3.1681 V 133 h 5.904881 V 111.58259 H 102.49 V 83.495363 l 14.30192,0.352502 2.83446,0.06978 2.08526,0.05132 0.2884,-11.911677 -4.91972,-0.121093 -0.16682,6.896611 -1.25116,-0.03079 a 5.9052757,3.7627277 1.427835 0 0 -5.68263,-3.067839 5.9052757,3.7627277 1.427835 0 0 -5.82655,2.784093 l -1.13317,-0.02771 a 1.5905699,0.64833496 0 0 0 -1.56702,-0.539784 1.5905699,0.64833496 0 0 0 -1.499361,0.432032 h -9.90713 a 1.5905699,0.64833496 0 0 0 -1.49936,-0.432032 1.5905699,0.64833496 0 0 0 -1.567009,0.539784 l -1.133167,0.02771 a 3.7627277,5.9052757 88.572165 0 0 -5.826559,-2.784093 3.7627277,5.9052757 88.572165 0 0 -5.682625,3.067839 l -1.251163,0.03079 z" />
     <ellipse
        style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:2.19512;stroke-dasharray:none;stroke-opacity:1"
        id="path375"
@@ -95,8 +69,6 @@
        height="11.389441"
        x="124.2905"
        y="87.932289"
-       inkscape:transform-center-x="2.3116058"
-       inkscape:transform-center-y="4.0605837"
        transform="matrix(0.89808295,0.43982612,-0.45431311,0.89084207,0,0)" />
     <rect
        style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3.03073;stroke-dasharray:none;stroke-opacity:1"
@@ -105,34 +77,6 @@
        height="11.389441"
        x="-44.991707"
        y="171.51024"
-       inkscape:transform-center-x="-2.3116141"
-       inkscape:transform-center-y="4.0605879"
-       transform="matrix(-0.89808295,0.43982611,0.45431311,0.89084207,0,0)"
-       inkscape:export-filename="../7ce168e8/main_icon.svg"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-dasharray:none;stroke-opacity:1"
-       id="rect8047"
-       width="3"
-       height="30"
-       x="134.02962"
-       y="-17.012974"
-       transform="rotate(40.81066)"
-       inkscape:transform-center-x="-9.3020042"
-       inkscape:transform-center-y="-10.736876" />
-    <rect
-       style="fill:#000000;fill-opacity:1;stroke:none;stroke-width:3;stroke-dasharray:none;stroke-opacity:1"
-       id="rect8047-7"
-       width="3"
-       height="20"
-       x="10.487025"
-       y="-137.02962"
-       inkscape:transform-center-x="-0.040194455"
-       inkscape:transform-center-y="9.1504838"
-       transform="rotate(130.81066)"
-       inkscape:export-filename="clock.svg"
-       inkscape:export-xdpi="96"
-       inkscape:export-ydpi="96" />
+       transform="matrix(-0.89808295,0.43982611,0.45431311,0.89084207,0,0)" />
   </g>
 </svg>

@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="90mm"
+   width="99mm"
    height="99.040283mm"
-   viewBox="0 0 90 99.040283"
+   viewBox="0 0 99 99.040283"
    version="1.1"
    id="svg5"
    sodipodi:docname="clock.svg"
@@ -42,7 +42,7 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-50.000001,-44.999999)">
+     transform="translate(-45.500001,-44.999999)">
     <ellipse
        style="fill:#000000;fill-opacity:0;stroke:#000000;stroke-width:2.19512;stroke-dasharray:none;stroke-opacity:1"
        id="path375"
