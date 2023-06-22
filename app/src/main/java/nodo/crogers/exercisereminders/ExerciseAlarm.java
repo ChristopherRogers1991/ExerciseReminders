@@ -63,12 +63,13 @@ public class ExerciseAlarm extends BroadcastReceiver {
                         .setGroup(NOTIFICATION_GROUP_ID)
                         .setGroupSummary(true)
                         .setAutoCancel(false);
-        notificationManager.notify((int) System.currentTimeMillis(), notificationBuilder.build());
-        notificationManager.notify(0, summaryNotificationBuilder.build());
+        int notificationId = (int) System.currentTimeMillis();
+        int summaryId = 0;
+        notificationManager.notify(notificationId, notificationBuilder.build());
+        notificationManager.notify(summaryId, summaryNotificationBuilder.build());
     }
 
     public static void scheduleNext(Context context) {
-        // TODO - clear any already scheduled notifications
         // TODO - base the next time on the time the notification _should_ have fone off? (as opposed to when in the window it did go off).
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent next = new Intent(context, ExerciseAlarm.class);
@@ -77,7 +78,10 @@ public class ExerciseAlarm extends BroadcastReceiver {
         int requestCode = 0;
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
-                context, requestCode, next, PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+                context,
+                requestCode,
+                next,
+                PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         alarmManager.setExact(
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
