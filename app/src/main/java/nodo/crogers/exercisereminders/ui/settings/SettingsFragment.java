@@ -4,7 +4,6 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
 
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
