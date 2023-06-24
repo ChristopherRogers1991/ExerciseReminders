@@ -16,7 +16,7 @@ import java.util.concurrent.Executors;
 @Database(entities = {Exercise.class}, version = 1, exportSchema = false)
 public abstract class ERDatabase extends RoomDatabase {
     private static ERDatabase instance;
-    private static final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    public static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public abstract ExerciseDao exerciseDao();
 

@@ -14,14 +14,15 @@ public class Exercise {
     @ColumnInfo
     private String name;
 
-    @ColumnInfo(defaultValue = "true")
-    private boolean enabled;
+    @ColumnInfo(defaultValue = "1")
+    private int enabled;
 
     @ColumnInfo(defaultValue = "0")
     private int count;
 
-    public Exercise(String name) {
+    public Exercise(String name, int enabled) {
         this.name = name;
+        this.enabled = enabled >= 1 ? 1 : 0;
     }
 
     public int id() {
@@ -32,7 +33,7 @@ public class Exercise {
         return name;
     }
 
-    public boolean enabled() {
+    public int enabled() {
         return enabled;
     }
 
@@ -48,8 +49,8 @@ public class Exercise {
         this.name = name;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setEnabled(int enabled) {
+        this.enabled = enabled >= 1 ? 1 : 0;
     }
 
     public void setCount(int count) {
@@ -57,20 +58,21 @@ public class Exercise {
     }
 
     public static Exercise[] getDefaults() {
+        int enabled = 1;
         return new Exercise[]{
-                new Exercise("Push-ups"),
-                new Exercise("Sit-ups"),
-                new Exercise("Leg Lifts"),
-                new Exercise("Crunches"),
-                new Exercise("Plank"),
-                new Exercise("Squats"),
-                new Exercise("Single-leg dead-lifts"),
-                new Exercise("Standing Hamstring Stretch"),
-                new Exercise("Calf Stretch"),
-                new Exercise("Butterfly Stretch"),
-                new Exercise("Dips"),
-                new Exercise("Pull-ups"),
-                new Exercise("Chin-ups")
+                new Exercise("Push-ups", enabled),
+                new Exercise("Sit-ups", enabled),
+                new Exercise("Leg Lifts", enabled),
+                new Exercise("Crunches", enabled),
+                new Exercise("Plank", enabled),
+                new Exercise("Squats", enabled),
+                new Exercise("Single-leg dead-lifts", enabled),
+                new Exercise("Standing Hamstring Stretch", enabled),
+                new Exercise("Calf Stretch", enabled),
+                new Exercise("Butterfly Stretch", enabled),
+                new Exercise("Dips", enabled),
+                new Exercise("Pull-ups", enabled),
+                new Exercise("Chin-ups", enabled)
         };
     }
 }
