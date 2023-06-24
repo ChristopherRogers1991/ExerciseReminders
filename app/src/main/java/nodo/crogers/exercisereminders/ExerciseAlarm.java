@@ -58,8 +58,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
             Exercise exercise = exercises.get(random.nextInt(exercises.size()));
             displayNotification(context, exercise);
 
-            exercise.setCount(exercise.count() + 1);
-            dao.update(exercise);
+            dao.incrementCount(exercise);
         });
 
 

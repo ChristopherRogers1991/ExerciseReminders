@@ -14,10 +14,6 @@ public class ExerciseListAdapter extends ListAdapter<Exercise, ExerciseViewHolde
         super(diffCallback);
     }
 
-    protected ExerciseListAdapter(@NonNull AsyncDifferConfig<Exercise> config) {
-        super(config);
-    }
-
     @NonNull
     @Override
     public ExerciseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int _viewType) {
@@ -27,7 +23,7 @@ public class ExerciseListAdapter extends ListAdapter<Exercise, ExerciseViewHolde
     @Override
     public void onBindViewHolder(@NonNull ExerciseViewHolder holder, int position) {
         Exercise current = getItem(position);
-        holder.bind(current.name());
+        holder.bind(current);
     }
 
     public static class ExerciseDiff extends DiffUtil.ItemCallback<Exercise> {

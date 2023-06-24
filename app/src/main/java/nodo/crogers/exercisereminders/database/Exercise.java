@@ -66,7 +66,7 @@ public class Exercise {
                 new Exercise("Crunches", enabled),
                 new Exercise("Plank", enabled),
                 new Exercise("Squats", enabled),
-                new Exercise("Single-leg dead-lifts", enabled),
+                new Exercise("Single-leg Deadlifts", enabled),
                 new Exercise("Standing Hamstring Stretch", enabled),
                 new Exercise("Calf Stretch", enabled),
                 new Exercise("Butterfly Stretch", enabled),
