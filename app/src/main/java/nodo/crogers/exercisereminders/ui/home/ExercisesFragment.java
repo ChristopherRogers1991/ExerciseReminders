@@ -9,6 +9,10 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Objects;
 
 import nodo.crogers.exercisereminders.ExerciseAlarm;
 import nodo.crogers.exercisereminders.R;
@@ -22,14 +26,20 @@ public class ExercisesFragment extends Fragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-        ExercisesViewModel exercisesViewModel =
-                new ViewModelProvider(this).get(ExercisesViewModel.class);
-
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         Button button = root.findViewById(R.id.button);
         button.setOnClickListener(this::buttonClicked);
 
+        RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
+        final ExerciseListAdapter adapter = new ExerciseListAdapter(new ExerciseListAdapter.ExerciseDiff());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        ExercisesViewModel exercisesViewModel =
+                new ViewModelProvider(this).get(ExercisesViewModel.class);
+
+        exercisesViewModel.getAllExercises().observe(getViewLifecycleOwner(), adapter::submitList);
         return root;
     }
 

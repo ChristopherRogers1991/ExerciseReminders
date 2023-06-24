@@ -7,19 +7,20 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.util.Log;
-
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
-import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
+import nodo.crogers.exercisereminders.database.ERDatabase;
+import nodo.crogers.exercisereminders.database.Exercise;
+import nodo.crogers.exercisereminders.database.ExerciseDao;
 import nodo.crogers.exercisereminders.ui.home.ExercisesViewModel;
 
 public class ExerciseAlarm extends BroadcastReceiver {
@@ -45,16 +46,32 @@ public class ExerciseAlarm extends BroadcastReceiver {
     }
 
     public static void showNotification(Context context) {
-        int numExercises = ExercisesViewModel.EXERCISES.length;
-        int randomIndex = random.nextInt(numExercises);
-        String exercise = ExercisesViewModel.EXERCISES[randomIndex];
+        ExerciseDao dao = ERDatabase.getInstance(context)
+                .exerciseDao();
+
+        ERDatabase.executorService.execute(() -> {
+            List<Exercise> exercises = dao.getEligible();
+            if (exercises.isEmpty()) {
+                return;
+            }
+
+            Exercise exercise = exercises.get(random.nextInt(exercises.size()));
+            displayNotification(context, exercise);
+
+            dao.incrementCount(exercise);
+        });
+
+
+    }
+
+    private static void displayNotification(Context context, Exercise exercise) {
         NotificationManager notificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder notificationBuilder =
                 new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
                         .setContentTitle("Exercise!")
-                        .setContentText(exercise)
+                        .setContentText(exercise.name())
                         .setGroup(NOTIFICATION_GROUP_ID)
                         .setAutoCancel(false);
         Notification.Builder summaryNotificationBuilder =
