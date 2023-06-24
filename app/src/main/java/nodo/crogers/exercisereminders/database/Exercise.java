@@ -2,6 +2,7 @@ package nodo.crogers.exercisereminders.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -23,6 +24,12 @@ public class Exercise {
     public Exercise(String name, int enabled) {
         this.name = name;
         this.enabled = enabled >= 1 ? 1 : 0;
+    }
+
+    @Ignore
+    public Exercise(String name) {
+        this.name = name;
+        this.enabled = 1;
     }
 
     public int id() {
@@ -58,21 +65,20 @@ public class Exercise {
     }
 
     public static Exercise[] getDefaults() {
-        int enabled = 1;
         return new Exercise[]{
-                new Exercise("Push-ups", enabled),
-                new Exercise("Sit-ups", enabled),
-                new Exercise("Leg Lifts", enabled),
-                new Exercise("Crunches", enabled),
-                new Exercise("Plank", enabled),
-                new Exercise("Squats", enabled),
-                new Exercise("Single-leg Deadlifts", enabled),
-                new Exercise("Standing Hamstring Stretch", enabled),
-                new Exercise("Calf Stretch", enabled),
-                new Exercise("Butterfly Stretch", enabled),
-                new Exercise("Dips", enabled),
-                new Exercise("Pull-ups", enabled),
-                new Exercise("Chin-ups", enabled)
+                new Exercise("Push-ups"),
+                new Exercise("Sit-ups"),
+                new Exercise("Leg Lifts"),
+                new Exercise("Crunches"),
+                new Exercise("Plank"),
+                new Exercise("Squats"),
+                new Exercise("Single-leg Deadlifts"),
+                new Exercise("Standing Hamstring Stretch"),
+                new Exercise("Calf Stretch"),
+                new Exercise("Butterfly Stretch"),
+                new Exercise("Dips"),
+                new Exercise("Pull-ups"),
+                new Exercise("Chin-ups")
         };
     }
 }
