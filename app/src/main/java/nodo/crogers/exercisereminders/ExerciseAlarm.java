@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.time.Clock;
+import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.Comparator;
@@ -93,6 +94,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
         next.setAction("exercise");
         next.putExtra("key", "value");
         int requestCode = 0;
+        long time = nextTime(context);
 
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 context,
@@ -103,6 +105,13 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
                 pendingIntent);
+        PreferenceManager.getInstance(context).setNextScheduledAlarm(time);
+    }
+
+    public static void scheduleIfUnscheduled(Context context) {
+        if (!PreferenceManager.getInstance(context).nextScheduledAlarm().isPresent()) {
+            scheduleNext(context);
+        }
     }
 
     private static long nextTime(Context context) {

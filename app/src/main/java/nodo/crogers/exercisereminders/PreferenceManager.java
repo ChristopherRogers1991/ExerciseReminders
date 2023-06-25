@@ -3,6 +3,9 @@ package nodo.crogers.exercisereminders;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.time.Instant;
+import java.util.Optional;
+
 public class PreferenceManager {
 
     private static final String PAUSED = "paused";
@@ -11,6 +14,8 @@ public class PreferenceManager {
     private static final String END_HOUR = "end-hour";
     private static final String END_MINUTE = "end-minute";
     private static String FREQUENCY = "frequency";
+
+    private static final String NEXT_SCHEDULED_ALARM = "next_scheduled_alarm";
     private static PreferenceManager instance;
     private static SharedPreferences sharedPreferences;
 
@@ -75,5 +80,16 @@ public class PreferenceManager {
 
     public int endMinute() {
         return sharedPreferences.getInt(END_MINUTE, 0);
+    }
+
+    public Optional<Long> nextScheduledAlarm() {
+        if (sharedPreferences.contains(NEXT_SCHEDULED_ALARM)) {
+            return Optional.of(sharedPreferences.getLong(NEXT_SCHEDULED_ALARM, 0));
+        }
+        return Optional.empty();
+    }
+
+    public void setNextScheduledAlarm(long epochMilli) {
+        sharedPreferences.edit().putLong(NEXT_SCHEDULED_ALARM, epochMilli).apply();
     }
 }

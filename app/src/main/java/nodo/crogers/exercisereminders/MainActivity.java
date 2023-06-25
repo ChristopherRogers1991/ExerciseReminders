@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
 
-        ExerciseAlarm.scheduleNext(this);
+        ExerciseAlarm.scheduleIfUnscheduled(this);
     }
 
     @Override
