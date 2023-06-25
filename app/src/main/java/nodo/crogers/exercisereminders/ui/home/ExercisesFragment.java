@@ -58,18 +58,25 @@ public class ExercisesFragment extends Fragment {
 
     public void buttonClicked(View view) {
         Context context = this.requireContext();
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(context);
-        dialogBuilder.setTitle("Create New Exercise");
-        final EditText input = new EditText(context);
-        dialogBuilder.setView(input);
-        dialogBuilder.setPositiveButton("Ok", (dialog, which) -> {
-            ERDatabase.executorService.execute(() ->
-                    ERDatabase.getInstance(context)
-                            .exerciseDao().
-                            insert(new Exercise(input.getText().toString())));
+        AlertDialog createExerciseDialog = new AlertDialog.Builder(context)
+                .setTitle("Create New Exercise")
+                .setView(R.layout.create_exercise_dialog)
+                .setCancelable(true)
+                .setNegativeButton("Cancel", ((dialog, which) -> dialog.cancel()))
+                .create();
+
+        createExerciseDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", (dialog, which) -> {
+            final EditText input = Objects.requireNonNull(createExerciseDialog.findViewById(R.id.exerciseNameText));
+            String exerciseName = input.getText().toString();
+            if (!exerciseName.equals("")) {
+                ERDatabase.executorService.execute(() ->
+                        ERDatabase.getInstance(context)
+                                .exerciseDao().
+                                insert(new Exercise(input.getText().toString())));
+            }
             dialog.dismiss();
         });
-        dialogBuilder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
-        dialogBuilder.show();
+
+        createExerciseDialog.show();
     }
 }
