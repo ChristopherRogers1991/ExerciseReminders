@@ -21,7 +21,7 @@ public interface ExerciseDao {
     @Update
     void update(Exercise exercise);
 
-    @Insert(onConflict = OnConflictStrategy.ABORT)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Exercise exercise);
 
     @Delete
