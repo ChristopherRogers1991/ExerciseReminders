@@ -15,7 +15,9 @@ public class PreferenceManager {
     private static final String END_MINUTE = "end-minute";
     private static String FREQUENCY = "frequency";
 
-    private static final String NEXT_SCHEDULED_ALARM = "next_scheduled_alarm";
+    private static final String NEXT_SCHEDULED_ALARM = "next-scheduled-alarm";
+
+    private static final String TERMS_ACCEPTED = "terms-accepted";
     private static PreferenceManager instance;
     private static SharedPreferences sharedPreferences;
 
@@ -91,5 +93,13 @@ public class PreferenceManager {
 
     public void setNextScheduledAlarm(long epochMilli) {
         sharedPreferences.edit().putLong(NEXT_SCHEDULED_ALARM, epochMilli).apply();
+    }
+
+    public boolean termsAccepted() {
+        return sharedPreferences.getBoolean(TERMS_ACCEPTED, false);
+    }
+
+    public void setTermsAccepted(boolean accepted) {
+        sharedPreferences.edit().putBoolean(TERMS_ACCEPTED, accepted).apply();
     }
 }

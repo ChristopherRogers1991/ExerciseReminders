@@ -5,13 +5,16 @@ import android.app.NotificationManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
-import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
@@ -20,6 +23,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.Objects;
 
 import nodo.crogers.exercisereminders.databinding.ActivityMainBinding;
 
@@ -36,6 +41,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        PreferenceManager preferenceManager = PreferenceManager.getInstance(this);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -69,7 +76,29 @@ public class MainActivity extends AppCompatActivity {
                 (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.createNotificationChannel(channel);
 
-        ExerciseAlarm.scheduleIfUnscheduled(this);
+        if (preferenceManager.termsAccepted()) {
+            ExerciseAlarm.scheduleIfUnscheduled(this);
+        } else {
+            AlertDialog createExerciseDialog = new AlertDialog.Builder(this)
+                    .setTitle("Don't Get Injured!")
+                    .setView(R.layout.terms_dialog)
+                    .setCancelable(false)
+                    .setPositiveButton("I Agree", ((dialog, which) -> {
+                        preferenceManager.setTermsAccepted(true);
+                        ExerciseAlarm.scheduleIfUnscheduled(this);
+                        dialog.dismiss();
+                    }))
+                    .setNegativeButton("Close App", ((dialog, which) -> this.finishAndRemoveTask()))
+                    .create();
+
+            createExerciseDialog.show();
+
+            Spanned licenseLinkHtml = Html.fromHtml(getString(R.string.licenseLink), Html.FROM_HTML_MODE_LEGACY);
+            TextView licenceLink = Objects.requireNonNull(createExerciseDialog.findViewById(R.id.licenseLinkTermsDialog));
+            licenceLink.setText(licenseLinkHtml);
+            licenceLink.setMovementMethod(LinkMovementMethod.getInstance());
+
+        }
     }
 
     @Override
