@@ -77,6 +77,11 @@ public class Exercise {
                 new Exercise("Calf Stretch"),
                 new Exercise("Butterfly Stretch"),
                 new Exercise("Dips"),
+                new Exercise("Jumping Jacks"),
+                new Exercise("Quad Stretch"),
+                new Exercise("Calf Raises"),
+                new Exercise("Lunges"),
+                new Exercise("Wall-sit"),
                 new Exercise("Pull-ups"),
                 new Exercise("Chin-ups")
         };
