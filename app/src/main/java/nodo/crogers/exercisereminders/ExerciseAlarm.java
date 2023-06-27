@@ -10,19 +10,14 @@ import android.content.Intent;
 import android.util.Log;
 
 import java.time.Clock;
-import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import nodo.crogers.exercisereminders.database.ERDatabase;
 import nodo.crogers.exercisereminders.database.Exercise;
 import nodo.crogers.exercisereminders.database.ExerciseDao;
-import nodo.crogers.exercisereminders.ui.home.ExercisesViewModel;
 
 public class ExerciseAlarm extends BroadcastReceiver {
     private static final String NOTIFICATION_GROUP_ID =

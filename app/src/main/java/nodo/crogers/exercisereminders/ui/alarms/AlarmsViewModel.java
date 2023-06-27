@@ -1,14 +1,14 @@
-package nodo.crogers.exercisereminders.ui.settings;
+package nodo.crogers.exercisereminders.ui.alarms;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
+public class AlarmsViewModel extends ViewModel {
 
     private final MutableLiveData<String> mText;
 
-    public SettingsViewModel() {
+    public AlarmsViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is settings fragment");
     }

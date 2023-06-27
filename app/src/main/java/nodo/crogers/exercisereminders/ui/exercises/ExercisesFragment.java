@@ -1,7 +1,6 @@
-package nodo.crogers.exercisereminders.ui.home;
+package nodo.crogers.exercisereminders.ui.exercises;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,22 +17,20 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.Objects;
 
-import nodo.crogers.exercisereminders.ExerciseAlarm;
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
 import nodo.crogers.exercisereminders.database.Exercise;
-import nodo.crogers.exercisereminders.database.ExerciseDao;
-import nodo.crogers.exercisereminders.databinding.FragmentHomeBinding;
+import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
 
 public class ExercisesFragment extends Fragment {
 
-    private FragmentHomeBinding binding;
+    private FragmentExercisesBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
 
-        binding = FragmentHomeBinding.inflate(inflater, container, false);
+        binding = FragmentExercisesBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         Button button = root.findViewById(R.id.button);
         button.setOnClickListener(this::buttonClicked);

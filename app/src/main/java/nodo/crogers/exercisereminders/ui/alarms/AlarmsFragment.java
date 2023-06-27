@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.ui.settings;
+package nodo.crogers.exercisereminders.ui.alarms;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -26,18 +26,18 @@ import java.util.Locale;
 import nodo.crogers.exercisereminders.ExerciseAlarm;
 import nodo.crogers.exercisereminders.PreferenceManager;
 import nodo.crogers.exercisereminders.R;
-import nodo.crogers.exercisereminders.databinding.FragmentSettingsBinding;
+import nodo.crogers.exercisereminders.databinding.FragmentAlarmsBinding;
 
-public class SettingsFragment extends Fragment {
+public class AlarmsFragment extends Fragment {
 
-    private FragmentSettingsBinding binding;
+    private FragmentAlarmsBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SettingsViewModel settingsViewModel =
-                new ViewModelProvider(this).get(SettingsViewModel.class);
+        AlarmsViewModel alarmsViewModel =
+                new ViewModelProvider(this).get(AlarmsViewModel.class);
 
-        binding = FragmentSettingsBinding.inflate(inflater, container, false);
+        binding = FragmentAlarmsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         Context context = this.requireContext();

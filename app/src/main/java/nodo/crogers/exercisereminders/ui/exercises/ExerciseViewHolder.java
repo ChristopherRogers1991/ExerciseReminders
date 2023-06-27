@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.ui.home;
+package nodo.crogers.exercisereminders.ui.exercises;
 
 import android.view.LayoutInflater;
 import android.view.View;

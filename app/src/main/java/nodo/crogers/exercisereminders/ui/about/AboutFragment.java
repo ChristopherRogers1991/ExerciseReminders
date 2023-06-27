@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.ui.slideshow;
+package nodo.crogers.exercisereminders.ui.about;
 
 import android.os.Bundle;
 import android.text.Html;
@@ -14,18 +14,18 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import nodo.crogers.exercisereminders.R;
-import nodo.crogers.exercisereminders.databinding.FragmentSlideshowBinding;
+import nodo.crogers.exercisereminders.databinding.FragmentAboutBinding;
 
-public class SlideshowFragment extends Fragment {
+public class AboutFragment extends Fragment {
 
-    private FragmentSlideshowBinding binding;
+    private FragmentAboutBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        SlideshowViewModel slideshowViewModel =
-                new ViewModelProvider(this).get(SlideshowViewModel.class);
+        AboutViewModel aboutViewModel =
+                new ViewModelProvider(this).get(AboutViewModel.class);
 
-        binding = FragmentSlideshowBinding.inflate(inflater, container, false);
+        binding = FragmentAboutBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         Spanned sourceCodeLinkHtml = Html.fromHtml(getString(R.string.sourceCodeLink), Html.FROM_HTML_MODE_LEGACY);
