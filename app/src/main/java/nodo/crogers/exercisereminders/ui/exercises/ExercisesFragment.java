@@ -15,7 +15,9 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
@@ -43,7 +45,18 @@ public class ExercisesFragment extends Fragment {
         ExercisesViewModel exercisesViewModel =
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
-        exercisesViewModel.getAllExercises().observe(getViewLifecycleOwner(), adapter::submitList);
+        exercisesViewModel.getAllExercises().observe(getViewLifecycleOwner(), newExercises -> {
+            List<String> currentExerciseNames = adapter.getCurrentList()
+                    .stream()
+                    .map(Exercise::name)
+                    .collect(Collectors.toList());
+            List<String> newExerciseNames = newExercises.stream()
+                    .map(Exercise::name)
+                    .collect(Collectors.toList());
+            if (!newExerciseNames.equals(currentExerciseNames)) {
+                adapter.submitList(newExercises);
+            }
+        });
         return root;
     }
 
