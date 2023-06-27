@@ -80,15 +80,15 @@ public class MainActivity extends AppCompatActivity {
             ExerciseAlarm.scheduleIfUnscheduled(this);
         } else {
             AlertDialog createExerciseDialog = new AlertDialog.Builder(this)
-                    .setTitle("Don't Get Injured!")
+                    .setTitle(getString(R.string.dont_get_injured))
                     .setView(R.layout.terms_dialog)
                     .setCancelable(false)
-                    .setPositiveButton("I Agree", ((dialog, which) -> {
+                    .setPositiveButton(getString(R.string.i_agree), ((dialog, which) -> {
                         preferenceManager.setTermsAccepted(true);
                         ExerciseAlarm.scheduleIfUnscheduled(this);
                         dialog.dismiss();
                     }))
-                    .setNegativeButton("Close App", ((dialog, which) -> this.finishAndRemoveTask()))
+                    .setNegativeButton(getString(R.string.close_app), ((dialog, which) -> this.finishAndRemoveTask()))
                     .create();
 
             createExerciseDialog.show();

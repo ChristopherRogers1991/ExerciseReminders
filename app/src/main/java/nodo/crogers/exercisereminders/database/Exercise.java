@@ -1,10 +1,14 @@
 package nodo.crogers.exercisereminders.database;
 
+import android.content.Context;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import nodo.crogers.exercisereminders.R;
 
 @Entity(indices = {@Index(value="name", unique = true)})
 public class Exercise {
@@ -64,26 +68,26 @@ public class Exercise {
         this.count = count;
     }
 
-    public static Exercise[] getDefaults() {
+    public static Exercise[] getDefaults(Context context) {
         return new Exercise[]{
-                new Exercise("Push-ups"),
-                new Exercise("Sit-ups"),
-                new Exercise("Leg Lifts"),
-                new Exercise("Crunches"),
-                new Exercise("Plank"),
-                new Exercise("Squats"),
-                new Exercise("Single-leg Deadlifts"),
-                new Exercise("Standing Hamstring Stretch"),
-                new Exercise("Calf Stretch"),
-                new Exercise("Butterfly Stretch"),
-                new Exercise("Dips"),
-                new Exercise("Jumping Jacks"),
-                new Exercise("Quad Stretch"),
-                new Exercise("Calf Raises"),
-                new Exercise("Lunges"),
-                new Exercise("Wall-sit"),
-                new Exercise("Pull-ups"),
-                new Exercise("Chin-ups")
+                new Exercise(context.getString(R.string.push_ups)),
+                new Exercise(context.getString(R.string.sit_ups)),
+                new Exercise(context.getString(R.string.leg_lifts)),
+                new Exercise(context.getString(R.string.crunches)),
+                new Exercise(context.getString(R.string.plank)),
+                new Exercise(context.getString(R.string.squats)),
+                new Exercise(context.getString(R.string.single_leg_deadlifts)),
+                new Exercise(context.getString(R.string.standing_hamstring_stretch)),
+                new Exercise(context.getString(R.string.calf_stretch)),
+                new Exercise(context.getString(R.string.butterfly_stretch)),
+                new Exercise(context.getString(R.string.dips)),
+                new Exercise(context.getString(R.string.jumping_jacks)),
+                new Exercise(context.getString(R.string.quad_stretch)),
+                new Exercise(context.getString(R.string.calf_raises)),
+                new Exercise(context.getString(R.string.lunges)),
+                new Exercise(context.getString(R.string.wall_sit)),
+                new Exercise(context.getString(R.string.pull_ups)),
+                new Exercise(context.getString(R.string.chin_ups))
         };
     }
 }

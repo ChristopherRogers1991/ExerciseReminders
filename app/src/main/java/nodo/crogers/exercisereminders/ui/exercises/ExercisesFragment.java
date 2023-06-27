@@ -56,13 +56,13 @@ public class ExercisesFragment extends Fragment {
     public void buttonClicked(View view) {
         Context context = this.requireContext();
         AlertDialog createExerciseDialog = new AlertDialog.Builder(context)
-                .setTitle("Create New Exercise")
+                .setTitle(R.string.create_new_exercise)
                 .setView(R.layout.create_exercise_dialog)
                 .setCancelable(true)
-                .setNegativeButton("Cancel", ((dialog, which) -> dialog.cancel()))
+                .setNegativeButton(R.string.cancel, ((dialog, which) -> dialog.cancel()))
                 .create();
 
-        createExerciseDialog.setButton(AlertDialog.BUTTON_POSITIVE, "Ok", (dialog, which) -> {
+        createExerciseDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.ok), (dialog, which) -> {
             final EditText input = Objects.requireNonNull(createExerciseDialog.findViewById(R.id.exerciseNameText));
             String exerciseName = input.getText().toString();
             if (!exerciseName.equals("")) {

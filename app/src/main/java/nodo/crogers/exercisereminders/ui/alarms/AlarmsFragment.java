@@ -43,10 +43,10 @@ public class AlarmsFragment extends Fragment {
         Button pauseButton = root.findViewById(R.id.pauseButton);
         Runnable updatePauseButton = () -> {
             if (preferenceManager.isPaused()) {
-                pauseButton.setText("Resume");
+                pauseButton.setText(R.string.resume);
                 pauseButton.setBackgroundColor(context.getColor(R.color.florescent_cyan));
             } else {
-                pauseButton.setText("Pause");
+                pauseButton.setText(R.string.pause);
                 pauseButton.setBackgroundColor(context.getColor(R.color.bleu_de_france));
             }
         };
@@ -54,12 +54,12 @@ public class AlarmsFragment extends Fragment {
         pauseButton.setOnClickListener(_view -> {
             preferenceManager.togglePaused();
             updatePauseButton.run();
-            String message;
+            int message;
             if (!preferenceManager.isPaused()) {
-                message = "Notifications resumed";
+                message = R.string.notifications_resumed;
                 ExerciseAlarm.scheduleNext(context);
             } else {
-                message = "Notifications paused";
+                message = R.string.notifications_paused;
             }
             Toast.makeText(context, message, Toast.LENGTH_LONG).show();
         });
@@ -95,7 +95,7 @@ public class AlarmsFragment extends Fragment {
 
         EditText frequencyInput = root.findViewById(R.id.frequencyInput);
         Runnable setFrequencyInputText = () -> frequencyInput.setText(
-                Integer.toString(preferenceManager.frequency()));
+                String.format(Locale.getDefault(),"%d", preferenceManager.frequency()));
         setFrequencyInputText.run();
         frequencyInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -105,7 +105,7 @@ public class AlarmsFragment extends Fragment {
                         int frequency = Integer.parseInt(frequencyInput.getText().toString());
                         if (frequency < 10) {
                             frequency = 10;
-                            Toast.makeText(context, "Minimum: 10 minutes", Toast.LENGTH_SHORT)
+                            Toast.makeText(context, R.string.minimum_frequency, Toast.LENGTH_SHORT)
                                     .show();
                         }
                         preferenceManager.setFrequency(frequency);

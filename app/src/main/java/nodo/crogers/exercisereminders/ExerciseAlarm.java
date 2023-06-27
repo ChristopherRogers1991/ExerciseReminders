@@ -66,7 +66,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
         Notification.Builder notificationBuilder =
                 new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.mipmap.ic_launcher_round)
-                        .setContentTitle("Exercise!")
+                        .setContentTitle(context.getString(R.string.exercise))
                         .setContentText(exercise.name())
                         .setGroup(NOTIFICATION_GROUP_ID)
                         .setAutoCancel(false);

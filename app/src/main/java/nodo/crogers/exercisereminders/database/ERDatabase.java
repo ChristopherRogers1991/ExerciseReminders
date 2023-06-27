@@ -30,7 +30,7 @@ public abstract class ERDatabase extends RoomDatabase {
                                 super.onCreate(db);
                                 executorService.execute(() -> {
                                     ExerciseDao dao = instance.exerciseDao();
-                                    for (Exercise exercise : Exercise.getDefaults()) {
+                                    for (Exercise exercise : Exercise.getDefaults(context)) {
                                         dao.insert(exercise);
                                     }
                                 });

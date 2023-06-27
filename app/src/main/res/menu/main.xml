@@ -4,7 +4,7 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Random Exercise"
+        android:title="@string/random_exercise"
         android:onClick="randomExercise"
         app:showAsAction="always" />
 </menu>

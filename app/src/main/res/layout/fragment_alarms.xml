@@ -14,7 +14,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:ems="8"
-        android:text="Pause"
+        android:text="@string/pause"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline" />
@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="8"
-        android:text="8:00 AM"
+        android:text="@string/default_start_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toTopOf="parent" />
@@ -38,7 +38,7 @@
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Start Time"
+        android:text="@string/start_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -51,7 +51,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:ems="8"
-        android:text="12:00 PM"
+        android:text="@string/default_end_time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/startTimeButton" />
@@ -62,7 +62,7 @@
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="End Time"
+        android:text="@string/end_time"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/startTimeText" />
@@ -73,7 +73,7 @@
         android:layout_height="47dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Frequency"
+        android:text="@string/frequency"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/endTimeText" />
@@ -86,7 +86,7 @@
         android:layout_marginTop="18dp"
         android:layout_marginEnd="16dp"
         android:ems="8"
-        android:hint="60 (minutes)"
+        android:hint="@string/frequency_hint"
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"

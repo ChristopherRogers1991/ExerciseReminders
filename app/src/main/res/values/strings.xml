@@ -13,4 +13,55 @@
     <string name="licenseLink"><![CDATA[<a href=https://raw.githubusercontent.com/ChristopherRogers1991/ExerciseReminders/master/LICENSE>License</a>]]></string>
     <string name="reportAnIssueLink"><![CDATA[<a href=https://github.com/ChristopherRogers1991/ExerciseReminders/issues/new>Report An Issue</a>]]></string>
     <string name="buyMeACoffeeLink"><![CDATA[<a href=https://www.buymeacoffee.com/crogers>Buy Me A Coffee</a>]]></string>
+
+    <string name="push_ups">Push-ups</string>
+    <string name="sit_ups">Sit-ups</string>
+    <string name="leg_lifts">Leg Lifts</string>
+    <string name="crunches">Crunches</string>
+    <string name="plank">Plank</string>
+    <string name="squats">Squats</string>
+    <string name="single_leg_deadlifts">Single-leg Deadlifts</string>
+    <string name="standing_hamstring_stretch">Standing Hamstring Stretch</string>
+    <string name="calf_stretch">Calf Stretch</string>
+    <string name="butterfly_stretch">Butterfly Stretch</string>
+    <string name="dips">Dips</string>
+    <string name="jumping_jacks">Jumping Jacks</string>
+    <string name="quad_stretch">Quad Stretch</string>
+    <string name="calf_raises">Calf Raises</string>
+    <string name="lunges">Lunges</string>
+    <string name="wall_sit">Wall-sit</string>
+    <string name="pull_ups">Pull-ups</string>
+    <string name="chin_ups">Chin-ups</string>
+
+    <string name="exercise">Exercise!</string>
+    <string name="dont_get_injured">Don\'t Get Injured!</string>
+    <string name="i_agree">I Agree</string>
+    <string name="close_app">Close App</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">Ok</string>
+    <string name="exercise_name">Exercise Name</string>
+    <string name="exercise_reminders">Exercise Reminders</string>
+    <string name="created_by">This application was created by Christopher Rogers. It is made available under the terms of the GPLv3.</string>
+    <string name="source_code">Source Code</string>
+    <string name="license">License</string>
+    <string name="report_an_issue">Report an Issue</string>
+    <string name="support_developer">If you would like to support the developer of this application, you can donate via the link below:</string>
+    <string name="buy_me_a_coffee">Buy Me A Coffee</string>
+    <string name="pause">Pause</string>
+    <string name="default_start_time">8:00 AM</string>
+    <string name="start_time">Start Time</string>
+    <string name="default_end_time">12:00 PM</string>
+    <string name="end_time">End Time</string>
+    <string name="frequency">Frequency</string>
+    <string name="frequency_hint">60 (minutes)</string>
+    <string name="add_exercise">Add Exercise</string>
+    <string name="terms">Improper exercise can result in injury. Before using this application, consult with your doctor. By continuing to use this application, you agree to hold its author blameless in the event of any injury incurred while using this application.</string>
+    <string name="random_exercise">Random Exercise</string>
+    <string name="resume">Resume</string>
+
+    <string name="notifications_paused">Notifications Paused</string>
+    <string name="notifications_resumed">Notifications Resumed</string>
+    <string name="minimum_frequency">Minimum: 10 minutes</string>
+
+    <string name="create_new_exercise">Create New Exercise</string>
 </resources>
