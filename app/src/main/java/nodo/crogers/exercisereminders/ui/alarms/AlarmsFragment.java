@@ -34,8 +34,6 @@ public class AlarmsFragment extends Fragment {
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        AlarmsViewModel alarmsViewModel =
-                new ViewModelProvider(this).get(AlarmsViewModel.class);
 
         binding = FragmentAlarmsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
