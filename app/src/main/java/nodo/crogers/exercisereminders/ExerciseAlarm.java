@@ -104,7 +104,8 @@ public class ExerciseAlarm extends BroadcastReceiver {
     }
 
     public static void scheduleIfUnscheduled(Context context) {
-        if (!PreferenceManager.getInstance(context).nextScheduledAlarm().isPresent()) {
+        long nextScheduled = PreferenceManager.getInstance(context).nextScheduledAlarm().orElse(0L);
+        if (nextScheduled < System.currentTimeMillis()) {
             scheduleNext(context);
         }
     }
