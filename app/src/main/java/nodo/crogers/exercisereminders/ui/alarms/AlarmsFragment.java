@@ -57,7 +57,7 @@ public class AlarmsFragment extends Fragment {
             int message;
             if (!preferenceManager.isPaused()) {
                 message = R.string.notifications_resumed;
-                ExerciseAlarm.scheduleNext(context);
+                ExerciseAlarm.scheduleIfUnscheduled(context);
             } else {
                 message = R.string.notifications_paused;
             }
