@@ -99,4 +99,25 @@
         android:orientation="vertical"
         app:layout_constraintGuide_end="161dp" />
 
+    <TextView
+        android:id="@+id/nextAlarmTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="22dp"
+        android:text="January 1st, 11:00 AM"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/next"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/nextAlarmTime"
+        app:layout_constraintStart_toStartOf="@+id/nextAlarmTime" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

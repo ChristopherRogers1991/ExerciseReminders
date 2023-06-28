@@ -18,7 +18,9 @@ import java.util.Random;
 import nodo.crogers.exercisereminders.database.ERDatabase;
 import nodo.crogers.exercisereminders.database.Exercise;
 import nodo.crogers.exercisereminders.database.ExerciseDao;
+import nodo.crogers.exercisereminders.ui.alarms.AlarmsViewModel;
 
+// TODO - refactor: extract scheduling, improve handling of LiveData
 public class ExerciseAlarm extends BroadcastReceiver {
     private static final String NOTIFICATION_GROUP_ID =
             "nodo.crogers.exerciseremoinders.NOTIFICATIONS";
@@ -101,6 +103,8 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 nextTime(context),
                 pendingIntent);
         PreferenceManager.getInstance(context).setNextScheduledAlarm(time);
+        AlarmsViewModel.nextScheduledAlarm.setValue(time);
+
     }
 
     public static void scheduleIfUnscheduled(Context context) {

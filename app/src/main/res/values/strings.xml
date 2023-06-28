@@ -64,4 +64,5 @@
     <string name="minimum_frequency">Minimum: 10 minutes</string>
 
     <string name="create_new_exercise">Create New Exercise</string>
+    <string name="next">Next:</string>
 </resources>
