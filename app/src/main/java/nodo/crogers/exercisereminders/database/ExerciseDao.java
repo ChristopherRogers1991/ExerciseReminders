@@ -12,12 +12,18 @@ import java.util.List;
 
 @Dao
 public interface ExerciseDao {
-    @Query("SELECT * FROM exercise ORDER BY name ASC")
+    @Query("SELECT * FROM Exercise ORDER BY name ASC")
     LiveData<List<Exercise>> getAll();
 
-    @Query("SELECT * FROM exercise where enabled = 1 AND count = (SELECT min(count) from exercise where enabled = 1)")
+    @Query("SELECT * FROM Exercise where enabled = 1 AND count = (SELECT min(count) from Exercise where enabled = 1)")
     List<Exercise> getEligible();
 
+    @Query("SELECT * FROM tag WHERE tag.id IN (SELECT tagId FROM exercise_to_tag WHERE exerciseId = :exerciseId)")
+    LiveData<List<Tag>> getTags(int exerciseId);
+
+    default LiveData<List<Tag>> getTags(Exercise exercise) {
+        return getTags(exercise.id());
+    }
     @Update
     void update(Exercise exercise);
 
