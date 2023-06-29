@@ -2,6 +2,7 @@ package nodo.crogers.exercisereminders.database;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -19,9 +20,11 @@ public class Tag {
     @ColumnInfo(defaultValue = "0")
     private int count;
 
-    public Tag(String name, int enabled) {
+    @Ignore
+    public Tag(String name, int id) {
         this.name = name;
-        this.enabled = enabled >= 1 ? 1 : 0;
+        this.id = id;
+        this.enabled = 1;
     }
 
     public Tag(String name) {

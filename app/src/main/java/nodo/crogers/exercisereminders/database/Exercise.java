@@ -25,12 +25,13 @@ public class Exercise {
     @ColumnInfo(defaultValue = "0")
     private int count;
 
-    public Exercise(String name, int enabled) {
+    @Ignore
+    public Exercise(String name, int id) {
         this.name = name;
-        this.enabled = enabled >= 1 ? 1 : 0;
+        this.id = id;
+        this.enabled = 1;
     }
 
-    @Ignore
     public Exercise(String name) {
         this.name = name;
         this.enabled = 1;

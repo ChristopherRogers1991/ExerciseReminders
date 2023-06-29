@@ -20,9 +20,9 @@ public interface TagDao {
     List<Exercise> getEligible();
 
     @Query("SELECT * from Exercise where Exercise.id in (SELECT exerciseId from exercise_to_tag where tagId = :tagId)")
-    LiveData<List<Exercise>> getExercises(int tagId);
+    List<Exercise> getExercises(int tagId);
 
-    default LiveData<List<Exercise>> getExercises(Tag tag) {
+    default List<Exercise> getExercises(Tag tag) {
         return getExercises(tag.id());
     }
 

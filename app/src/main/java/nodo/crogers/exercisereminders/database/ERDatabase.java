@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import java.util.stream.Stream;
 
 import nodo.crogers.exercisereminders.R;
 
@@ -19,7 +20,7 @@ import nodo.crogers.exercisereminders.R;
 @Database(entities = {Exercise.class, Tag.class, ExerciseTagPair.class}, version = 1, exportSchema = false)
 public abstract class ERDatabase extends RoomDatabase {
     private static ERDatabase instance;
-    public static final ExecutorService executorService = Executors.newSingleThreadExecutor();
+    public static final ExecutorService executorService = Executors.newFixedThreadPool(4);
 
     public abstract ExerciseDao exerciseDao();
 
@@ -36,10 +37,7 @@ public abstract class ERDatabase extends RoomDatabase {
                             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                 super.onCreate(db);
                                 executorService.execute(() -> {
-                                    ExerciseDao dao = instance.exerciseDao();
-                                    for (Exercise exercise : Exercise.getDefaults(context)) {
-                                        dao.insert(exercise);
-                                    }
+                                    initializeDb(context);
                                 });
                             }
                         })
@@ -47,32 +45,6 @@ public abstract class ERDatabase extends RoomDatabase {
             }
         }
         return instance;
-    }
-
-    public void insertExercises(Exercise... exercises) {
-        insertAll(instance.exerciseDao()::insert, exercises);
-    }
-
-    public void insertTags(Tag... tags) {
-        insertAll(instance.tagDao()::insert, tags);
-    }
-
-    public void tagExercise(Exercise exercise, Tag... tags) {
-        insertExercises(exercise);
-        insertTags(tags);
-        insertAll(instance.exerciseTagPairDao()::insert,
-                (ExerciseTagPair[]) Arrays.stream(tags)
-                        .map(tag -> new ExerciseTagPair(exercise, tag))
-                        .toArray());
-    }
-
-    public void tagExercises(Tag tag, Exercise... exercises) {
-        insertTags(tag);
-        insertExercises(exercises);
-        insertAll(instance.exerciseTagPairDao()::insert,
-                (ExerciseTagPair[]) Arrays.stream(exercises)
-                        .map(exercise -> new ExerciseTagPair(exercise, tag))
-                        .toArray());
     }
 
     public void enable(Exercise exercise) {
@@ -99,48 +71,41 @@ public abstract class ERDatabase extends RoomDatabase {
                 .disable(tag));
     }
 
-    @SafeVarargs
-    private final <T> void insertAll(Consumer<T> insertFunction, T... items) {
-        executorService.execute(() -> {
-            for (T item : items) {
-                insertFunction.accept(item);
-            }
-        });
-    }
-
     private static void initializeDb(Context context) {
         ERDatabase db = getInstance(context);
 
-        Tag upperBody = new Tag("Upper Body");
-        Tag lowerBody = new Tag("Lower Body");
-        Tag abs = new Tag("Abs");
-        Tag stretch = new Tag("Stretch");
-        Tag cardio = new Tag("Cardio");
+        int tagId = 1;
+        Tag upperBody = new Tag("Upper Body", tagId++);
+        Tag lowerBody = new Tag("Lower Body", tagId++);
+        Tag abs = new Tag("Abs", tagId++);
+        Tag stretch = new Tag("Stretch", tagId++);
+        Tag cardio = new Tag("Cardio", tagId++);
 
-        Exercise pushups = new Exercise(context.getString(R.string.push_ups));
-        Exercise dips = new Exercise(context.getString(R.string.dips));
-        Exercise pullUps = new Exercise(context.getString(R.string.pull_ups));
-        Exercise chinUps = new Exercise(context.getString(R.string.chin_ups));
+        int exerciseId = 1;
+        Exercise pushups = new Exercise(context.getString(R.string.push_ups), exerciseId++);
+        Exercise dips = new Exercise(context.getString(R.string.dips), exerciseId++);
+        Exercise pullUps = new Exercise(context.getString(R.string.pull_ups), exerciseId++);
+        Exercise chinUps = new Exercise(context.getString(R.string.chin_ups), exerciseId++);
 
-        Exercise squats = new Exercise(context.getString(R.string.squats));
+        Exercise squats = new Exercise(context.getString(R.string.squats), exerciseId++);
         Exercise singleLegDeadlifts =
-                new Exercise(context.getString(R.string.single_leg_deadlifts));
-        Exercise calfRaises = new Exercise(context.getString(R.string.calf_raises));
-        Exercise lunges = new Exercise(context.getString(R.string.lunges));
-        Exercise wallSit = new Exercise(context.getString(R.string.wall_sit));
+                new Exercise(context.getString(R.string.single_leg_deadlifts), exerciseId++);
+        Exercise calfRaises = new Exercise(context.getString(R.string.calf_raises), exerciseId++);
+        Exercise lunges = new Exercise(context.getString(R.string.lunges), exerciseId++);
+        Exercise wallSit = new Exercise(context.getString(R.string.wall_sit), exerciseId++);
 
-        Exercise sitUps = new Exercise(context.getString(R.string.sit_ups));
-        Exercise legLifts = new Exercise(context.getString(R.string.leg_lifts));
-        Exercise plank = new Exercise(context.getString(R.string.plank));
-        Exercise crunches = new Exercise(context.getString(R.string.crunches));
+        Exercise sitUps = new Exercise(context.getString(R.string.sit_ups), exerciseId++);
+        Exercise legLifts = new Exercise(context.getString(R.string.leg_lifts), exerciseId++);
+        Exercise plank = new Exercise(context.getString(R.string.plank), exerciseId++);
+        Exercise crunches = new Exercise(context.getString(R.string.crunches), exerciseId++);
 
         Exercise standingHamstringStretch =
-                new Exercise(context.getString(R.string.standing_hamstring_stretch));
-        Exercise calfStretch = new Exercise(context.getString(R.string.calf_stretch));
-        Exercise butterflyStretch = new Exercise(context.getString(R.string.butterfly_stretch));
-        Exercise quadStretch = new Exercise(context.getString(R.string.quad_stretch));
+                new Exercise(context.getString(R.string.standing_hamstring_stretch), exerciseId++);
+        Exercise calfStretch = new Exercise(context.getString(R.string.calf_stretch), exerciseId++);
+        Exercise butterflyStretch = new Exercise(context.getString(R.string.butterfly_stretch), exerciseId++);
+        Exercise quadStretch = new Exercise(context.getString(R.string.quad_stretch), exerciseId++);
 
-        Exercise jumpingJacks = new Exercise(context.getString(R.string.jumping_jacks));
+        Exercise jumpingJacks = new Exercise(context.getString(R.string.jumping_jacks), exerciseId++);
 
         db.tagExercises(upperBody, pushups, dips, pullUps, chinUps);
         db.tagExercises(lowerBody,
@@ -159,6 +124,43 @@ public abstract class ERDatabase extends RoomDatabase {
                         butterflyStretch,
                         quadStretch);
         db.tagExercises(cardio, jumpingJacks);
-
     }
+
+    private void tagExercises(Tag tag, Exercise... exercises) {
+        insertTags(tag);
+        insertExercises(exercises);
+        insertAll(instance.exerciseTagPairDao()::insert,
+                 Arrays.stream(exercises)
+                        .map(exercise -> new ExerciseTagPair(exercise, tag)));
+    }
+
+    private void tagExercise(Exercise exercise, Tag... tags) {
+        insertExercises(exercise);
+        insertTags(tags);
+        insertAll(instance.exerciseTagPairDao()::insert,
+                (ExerciseTagPair[]) Arrays.stream(tags)
+                        .map(tag -> new ExerciseTagPair(exercise, tag))
+                        .toArray());
+    }
+
+    private void insertExercises(Exercise... exercises) {
+        insertAll(instance.exerciseDao()::insert, exercises);
+    }
+
+    private void insertTags(Tag... tags) {
+        insertAll(instance.tagDao()::insert, tags);
+    }
+
+    @SafeVarargs
+    private final <T> void insertAll(Consumer<T> insertFunction, T... items) {
+        for (T item : items) {
+            insertFunction.accept(item);
+        }
+    }
+
+    private final <T> void insertAll(Consumer<T> insertFunction, Stream<T> items) {
+        items.forEach(insertFunction);
+    }
+
+
 }

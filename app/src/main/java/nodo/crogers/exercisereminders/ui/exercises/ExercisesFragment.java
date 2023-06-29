@@ -22,6 +22,7 @@ import java.util.stream.Collectors;
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
 import nodo.crogers.exercisereminders.database.Exercise;
+import nodo.crogers.exercisereminders.database.Tag;
 import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
 
 public class ExercisesFragment extends Fragment {
@@ -37,16 +38,35 @@ public class ExercisesFragment extends Fragment {
         Button button = root.findViewById(R.id.button);
         button.setOnClickListener(this::buttonClicked);
 
-        RecyclerView recyclerView = root.findViewById(R.id.recyclerView);
-        final ExerciseListAdapter adapter = new ExerciseListAdapter(new ExerciseListAdapter.ExerciseDiff());
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-
         ExercisesViewModel exercisesViewModel =
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
-        exercisesViewModel.getAllExercises().observe(getViewLifecycleOwner(), newExercises -> {
-            List<String> currentExerciseNames = adapter.getCurrentList()
+        RecyclerView tagRecyclerView = root.findViewById(R.id.tagRecyclerView);
+        final TagListAdapter tagListAdapter = new TagListAdapter(new TagListAdapter.TagDiff(), exercisesViewModel);
+        tagRecyclerView.setAdapter(tagListAdapter);
+        tagRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        RecyclerView exerciseRecyclerView = root.findViewById(R.id.exerciseRecyclerView);
+        final ExerciseListAdapter exerciseListAdapter = new ExerciseListAdapter(new ExerciseListAdapter.ExerciseDiff());
+        exerciseRecyclerView.setAdapter(exerciseListAdapter);
+        exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+
+        exercisesViewModel.getAllTags().observe(getViewLifecycleOwner(), newTags -> {
+            List<String> currentTagNames = tagListAdapter.getCurrentList()
+                    .stream()
+                    .map(Tag::name)
+                    .collect(Collectors.toList());
+            List<String> newExerciseNames = newTags.stream()
+                    .map(Tag::name)
+                    .collect(Collectors.toList());
+            if (!newExerciseNames.equals(currentTagNames)) {
+                tagListAdapter.submitList(newTags);
+            }
+        });
+
+        exercisesViewModel.getTaggedExercises().observe(getViewLifecycleOwner(), newExercises -> {
+            List<String> currentExerciseNames = exerciseListAdapter.getCurrentList()
                     .stream()
                     .map(Exercise::name)
                     .collect(Collectors.toList());
@@ -54,7 +74,7 @@ public class ExercisesFragment extends Fragment {
                     .map(Exercise::name)
                     .collect(Collectors.toList());
             if (!newExerciseNames.equals(currentExerciseNames)) {
-                adapter.submitList(newExercises);
+                exerciseListAdapter.submitList(newExercises);
             }
         });
         return root;

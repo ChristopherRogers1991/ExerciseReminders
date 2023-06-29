@@ -10,6 +10,7 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -37,6 +38,18 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
+
+    @Override
+    public void onBackPressed() {
+        View exerciseRecyclerView = binding.getRoot().findViewById(R.id.exerciseRecyclerView);
+        if (exerciseRecyclerView.getVisibility() == View.VISIBLE) {
+            exerciseRecyclerView.setVisibility(View.GONE);
+            binding.getRoot().findViewById(R.id.tagRecyclerView).setVisibility(View.VISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
