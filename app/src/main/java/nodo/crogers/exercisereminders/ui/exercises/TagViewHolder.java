@@ -42,10 +42,10 @@ public class TagViewHolder extends RecyclerView.ViewHolder {
                 View tags = tagTextView.getRootView().findViewById(R.id.tagRecyclerView);
                 View exercises = tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView);
                 ObjectAnimator tagAnimator = ObjectAnimator.ofFloat(tags, "translationX", -1F * tags.getWidth());
-                exercises.setAlpha(0F);
+                exercises.setX(tags.getWidth());
                 exercises.setVisibility(View.VISIBLE);
                 exercises.animate()
-                        .alpha(1F)
+                        .x(0F)
                         .setDuration(500)
                         .setListener(null);
                 tagAnimator.setDuration(500);

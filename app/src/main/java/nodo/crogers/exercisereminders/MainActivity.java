@@ -49,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
         if (tags.getX() < 0) {
             ObjectAnimator tagAnimator = ObjectAnimator.ofFloat(tags, "translationX", 0);
             tagAnimator.setDuration(500);
-            exercises.setAlpha(1F);
             exercises.animate()
-                    .alpha(0F)
+                    .x(tags.getWidth())
                     .setDuration(500)
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
