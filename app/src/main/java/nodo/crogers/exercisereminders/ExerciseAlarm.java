@@ -98,7 +98,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 requestCode,
                 next,
                 PendingIntent.FLAG_IMMUTABLE | PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        alarmManager.setExact(
+        alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
                 pendingIntent);
