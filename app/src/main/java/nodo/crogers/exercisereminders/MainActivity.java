@@ -1,5 +1,8 @@
 package nodo.crogers.exercisereminders;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -41,10 +44,23 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        View exerciseRecyclerView = binding.getRoot().findViewById(R.id.exerciseRecyclerView);
-        if (exerciseRecyclerView.getVisibility() == View.VISIBLE) {
-            exerciseRecyclerView.setVisibility(View.GONE);
-            binding.getRoot().findViewById(R.id.tagRecyclerView).setVisibility(View.VISIBLE);
+        View tags = binding.getRoot().findViewById(R.id.tagRecyclerView);
+        View exercises = binding.getRoot().findViewById(R.id.exerciseRecyclerView);
+        if (tags.getX() < 0) {
+            ObjectAnimator tagAnimator = ObjectAnimator.ofFloat(tags, "translationX", 0);
+            tagAnimator.setDuration(500);
+            exercises.setAlpha(1F);
+            exercises.animate()
+                    .alpha(0F)
+                    .setDuration(500)
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            super.onAnimationEnd(animation);
+                            exercises.setVisibility(View.GONE);
+                        }
+                    });
+            tagAnimator.start();
         } else {
             super.onBackPressed();
         }

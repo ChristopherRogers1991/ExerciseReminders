@@ -1,5 +1,6 @@
 package nodo.crogers.exercisereminders.ui.exercises;
 
+import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,8 +37,19 @@ public class TagViewHolder extends RecyclerView.ViewHolder {
             @Override
             public void onClick(View v) {
                 exercisesViewModel.setTag(tag);
-                tagTextView.getRootView().findViewById(R.id.tagRecyclerView).setVisibility(View.GONE);
-                tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView).setVisibility(View.VISIBLE);
+//                tagTextView.getRootView().findViewById(R.id.tagRecyclerView).setVisibility(View.GONE);
+//                tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView).setVisibility(View.VISIBLE);
+                View tags = tagTextView.getRootView().findViewById(R.id.tagRecyclerView);
+                View exercises = tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView);
+                ObjectAnimator tagAnimator = ObjectAnimator.ofFloat(tags, "translationX", -1F * tags.getWidth());
+                exercises.setAlpha(0F);
+                exercises.setVisibility(View.VISIBLE);
+                exercises.animate()
+                        .alpha(1F)
+                        .setDuration(500)
+                        .setListener(null);
+                tagAnimator.setDuration(500);
+                tagAnimator.start();
             }
         });
         enabledCheckBox.setChecked(tag.enabled() == 1);

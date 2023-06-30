@@ -51,7 +51,6 @@ public class ExercisesFragment extends Fragment {
         exerciseRecyclerView.setAdapter(exerciseListAdapter);
         exerciseRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-
         exercisesViewModel.getAllTags().observe(getViewLifecycleOwner(), newTags -> {
             List<String> currentTagNames = tagListAdapter.getCurrentList()
                     .stream()
