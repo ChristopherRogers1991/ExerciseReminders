@@ -1,8 +1,5 @@
 package nodo.crogers.exercisereminders;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
@@ -31,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import nodo.crogers.exercisereminders.databinding.ActivityMainBinding;
+import nodo.crogers.exercisereminders.ui.exercises.Crossfader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,20 +44,8 @@ public class MainActivity extends AppCompatActivity {
     public void onBackPressed() {
         View tags = binding.getRoot().findViewById(R.id.tagRecyclerView);
         View exercises = binding.getRoot().findViewById(R.id.exerciseRecyclerView);
-        if (tags.getX() < 0) {
-            ObjectAnimator tagAnimator = ObjectAnimator.ofFloat(tags, "translationX", 0);
-            tagAnimator.setDuration(500);
-            exercises.animate()
-                    .x(tags.getWidth())
-                    .setDuration(500)
-                    .setListener(new AnimatorListenerAdapter() {
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            super.onAnimationEnd(animation);
-                            exercises.setVisibility(View.GONE);
-                        }
-                    });
-            tagAnimator.start();
+        if (tags.getVisibility() != View.VISIBLE) {
+            Crossfader.crossfade(exercises, tags);
         } else {
             super.onBackPressed();
         }

@@ -1,6 +1,5 @@
 package nodo.crogers.exercisereminders.ui.exercises;
 
-import android.animation.ObjectAnimator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,24 +32,11 @@ public class TagViewHolder extends RecyclerView.ViewHolder {
         tagTextView.setOnClickListener(null);
 
         tagTextView.setText(tag.name());
-        tagTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exercisesViewModel.setTag(tag);
-//                tagTextView.getRootView().findViewById(R.id.tagRecyclerView).setVisibility(View.GONE);
-//                tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView).setVisibility(View.VISIBLE);
-                View tags = tagTextView.getRootView().findViewById(R.id.tagRecyclerView);
-                View exercises = tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView);
-                ObjectAnimator tagAnimator = ObjectAnimator.ofFloat(tags, "translationX", -1F * tags.getWidth());
-                exercises.setX(tags.getWidth());
-                exercises.setVisibility(View.VISIBLE);
-                exercises.animate()
-                        .x(0F)
-                        .setDuration(500)
-                        .setListener(null);
-                tagAnimator.setDuration(500);
-                tagAnimator.start();
-            }
+        tagTextView.setOnClickListener(v -> {
+            exercisesViewModel.setTag(tag);
+            View tags = tagTextView.getRootView().findViewById(R.id.tagRecyclerView);
+            View exercises = tagTextView.getRootView().findViewById(R.id.exerciseRecyclerView);
+            Crossfader.crossfade(tags, exercises);
         });
         enabledCheckBox.setChecked(tag.enabled() == 1);
         enabledCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
