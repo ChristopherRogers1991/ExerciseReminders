@@ -22,7 +22,7 @@ public class ExercisesViewModel extends AndroidViewModel {
         super(application);
         db = ERDatabase.getInstance(application);
         taggedExercises = new MutableLiveData<>();
-        allTags = db.tagDao().getAll();
+        allTags = db.tagDao().getAllLive();
     }
 
     public LiveData<List<Exercise>> getTaggedExercises() {

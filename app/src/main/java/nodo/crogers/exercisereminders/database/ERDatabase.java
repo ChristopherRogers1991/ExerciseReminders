@@ -162,5 +162,4 @@ public abstract class ERDatabase extends RoomDatabase {
         items.forEach(insertFunction);
     }
 
-
 }

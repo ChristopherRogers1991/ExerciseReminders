@@ -14,7 +14,10 @@ import java.util.List;
 public interface TagDao {
 
     @Query("SELECT * FROM tag ORDER BY name ASC")
-    LiveData<List<Tag>> getAll();
+    LiveData<List<Tag>> getAllLive();
+
+    @Query("SELECT * FROM tag ORDER BY name ASC")
+    List<Tag> getAll();
 
     @Query("SELECT * FROM tag where enabled = 1 AND count = (SELECT min(count) from tag where enabled = 1)")
     List<Exercise> getEligible();

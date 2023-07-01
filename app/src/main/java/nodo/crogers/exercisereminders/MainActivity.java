@@ -10,7 +10,6 @@ import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.MenuItem;
 import android.view.Menu;
-import android.view.View;
 import android.widget.TextView;
 
 import com.google.android.material.navigation.NavigationView;
@@ -28,7 +27,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Objects;
 
 import nodo.crogers.exercisereminders.databinding.ActivityMainBinding;
-import nodo.crogers.exercisereminders.ui.exercises.Crossfader;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,18 +37,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private ActivityMainBinding binding;
-
-    @Override
-    public void onBackPressed() {
-        View tags = binding.getRoot().findViewById(R.id.tagRecyclerView);
-        View exercises = binding.getRoot().findViewById(R.id.exerciseRecyclerView);
-        if (tags.getVisibility() != View.VISIBLE) {
-            Crossfader.crossfade(exercises, tags);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
