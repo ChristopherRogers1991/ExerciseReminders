@@ -58,9 +58,9 @@ public class ExercisesFragment extends Fragment {
     }
 
     private void initializeList() {
-        exercisesViewModel.getTagsToExercises().observeForever(_map -> {
+        exercisesViewModel.getTagsToExercises().observeForever(map -> {
             ExpandableListView view = requireActivity().findViewById(R.id.expandableList);
-            view.setAdapter(new TaggedExerciseListAdapter(exercisesViewModel.getTagsToExercises()));
+            view.setAdapter(new TaggedExerciseListAdapter(map));
         });
     }
 
