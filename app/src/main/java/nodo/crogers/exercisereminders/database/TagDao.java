@@ -13,6 +13,9 @@ import java.util.List;
 @Dao
 public interface TagDao {
 
+    @Query("SELECT * FROM Tag WHERE name = :name")
+    Tag getByName(String name);
+
     @Query("SELECT * FROM tag ORDER BY name ASC")
     LiveData<List<Tag>> getAllLive();
 

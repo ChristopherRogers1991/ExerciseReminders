@@ -1,8 +1,10 @@
 package nodo.crogers.exercisereminders.ui.exercises;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +30,8 @@ import java.util.stream.Collectors;
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
 import nodo.crogers.exercisereminders.database.Exercise;
+import nodo.crogers.exercisereminders.database.ExerciseDao;
+import nodo.crogers.exercisereminders.database.ExerciseTagPairDao;
 import nodo.crogers.exercisereminders.database.Tag;
 import nodo.crogers.exercisereminders.database.TagDao;
 import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
@@ -48,20 +52,29 @@ public class ExercisesFragment extends Fragment {
         ExercisesViewModel exercisesViewModel =
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
-        ExpandableListView expandableListView = root.findViewById(R.id.expandableList);
+        initializeList();
+        return root;
+    }
+
+    private void initializeList() {
         ERDatabase db = ERDatabase.getInstance(requireContext());
         TagDao dao = db.tagDao();
         Map<Tag, List<Exercise>> tagsToExercises = new HashMap<>();
         CompletableFuture.runAsync(() -> {
-            List<Tag> tags = dao.getAll();
-            for (Tag tag : tags) {
-                tagsToExercises.put(tag, dao.getExercises(tag));
-            }
-        }).thenRunAsync(() -> {
-            expandableListView.post(() -> expandableListView.setAdapter(new TaggedExerciseListAdapter(tagsToExercises)));
-        });
-
-        return root;
+                            List<Tag> tags = dao.getAll();
+                            for (Tag tag : tags) {
+                                tagsToExercises.put(tag, dao.getExercises(tag));
+                            }
+                        },
+                        ERDatabase.executorService)
+                .thenRunAsync(() -> {
+                    final Activity activity = requireActivity();
+                    activity.runOnUiThread(() ->
+                    {
+                        ExpandableListView view = activity.findViewById(R.id.expandableList);
+                        view.setAdapter(new TaggedExerciseListAdapter(tagsToExercises));
+                    });
+                });
     }
 
     @Override
@@ -80,15 +93,18 @@ public class ExercisesFragment extends Fragment {
                 .create();
 
         createExerciseDialog.setButton(AlertDialog.BUTTON_POSITIVE, context.getString(R.string.ok), (dialog, which) -> {
-            final EditText input = Objects.requireNonNull(createExerciseDialog.findViewById(R.id.exerciseNameText));
-            String exerciseName = input.getText().toString();
-            if (!exerciseName.equals("")) {
-                ERDatabase.executorService.execute(() ->
-                        ERDatabase.getInstance(context)
-                                .exerciseDao().
-                                insert(new Exercise(input.getText().toString())));
+            final EditText exerciseNameInput = Objects.requireNonNull(createExerciseDialog.findViewById(R.id.exerciseNameText));
+            final EditText tagNameInput = Objects.requireNonNull(createExerciseDialog.findViewById(R.id.tagNameText));
+            String exerciseName = exerciseNameInput.getText().toString();
+            if (exerciseName.equals("")) {
+                dialog.dismiss();
             }
-            dialog.dismiss();
+            else  {
+                ERDatabase.getInstance(context).tagExercisesAsync(
+                                new Tag(tagNameInput.getText().toString()),
+                                new Exercise(exerciseNameInput.getText().toString()))
+                        .thenRun(this::initializeList);
+            }
         });
 
         createExerciseDialog.show();

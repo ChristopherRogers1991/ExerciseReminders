@@ -9,9 +9,12 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nodo.crogers.exercisereminders.R;
@@ -129,18 +132,32 @@ public abstract class ERDatabase extends RoomDatabase {
     private void tagExercises(Tag tag, Exercise... exercises) {
         insertTags(tag);
         insertExercises(exercises);
+        Tag tagWithCorrectId = tagDao().getByName(tag.name());
         insertAll(instance.exerciseTagPairDao()::insert,
                  Arrays.stream(exercises)
-                        .map(exercise -> new ExerciseTagPair(exercise, tag)));
+                         .map(exercise -> exerciseDao().getByName(exercise.name()))
+                         .map(exerciseWithCorrectId ->
+                                 new ExerciseTagPair(exerciseWithCorrectId, tagWithCorrectId)));
     }
 
     private void tagExercise(Exercise exercise, Tag... tags) {
         insertExercises(exercise);
         insertTags(tags);
+        Exercise exerciseWithCorrectId = exerciseDao().getByName(exercise.name());
         insertAll(instance.exerciseTagPairDao()::insert,
                 (ExerciseTagPair[]) Arrays.stream(tags)
-                        .map(tag -> new ExerciseTagPair(exercise, tag))
+                        .map(tag -> tagDao().getByName(tag.name()))
+                        .map(tagWithCorrectId ->
+                                new ExerciseTagPair(exerciseWithCorrectId, tagWithCorrectId))
                         .toArray());
+    }
+
+    public CompletableFuture<Void> tagExerciseAsync(Exercise exercise, Tag... tags) {
+        return CompletableFuture.runAsync(() -> tagExercise(exercise, tags), executorService);
+    }
+
+    public CompletableFuture<Void> tagExercisesAsync(Tag tag, Exercise... exercises) {
+        return CompletableFuture.runAsync(() -> tagExercises(tag, exercises), executorService);
     }
 
     private void insertExercises(Exercise... exercises) {
@@ -159,7 +176,9 @@ public abstract class ERDatabase extends RoomDatabase {
     }
 
     private final <T> void insertAll(Consumer<T> insertFunction, Stream<T> items) {
-        items.forEach(insertFunction);
+        // Strem::forEach does not work for some unknown reason; must copy to a list.
+        List<T> copy = items.collect(Collectors.toList());
+        copy.forEach(insertFunction);
     }
 
 }

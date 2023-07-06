@@ -12,6 +12,9 @@ import java.util.List;
 
 @Dao
 public interface ExerciseDao {
+    @Query("SELECT * FROM Exercise WHERE name = :name")
+    Exercise getByName(String name);
+
     @Query("SELECT * FROM Exercise ORDER BY name ASC")
     LiveData<List<Exercise>> getAll();
 

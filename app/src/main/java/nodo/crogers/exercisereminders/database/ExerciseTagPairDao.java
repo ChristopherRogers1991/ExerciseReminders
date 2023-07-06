@@ -7,4 +7,5 @@ import androidx.room.Insert;
 public interface ExerciseTagPairDao {
     @Insert
     void insert(ExerciseTagPair pair);
+
 }
