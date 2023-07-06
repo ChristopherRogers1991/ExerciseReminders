@@ -20,7 +20,12 @@ import java.util.stream.Stream;
 import nodo.crogers.exercisereminders.R;
 
 // TODO - export schema?
-@Database(entities = {Exercise.class, Tag.class, ExerciseTagPair.class}, version = 1, exportSchema = false)
+@Database(
+        entities = {Exercise.class, Tag.class, ExerciseTagPair.class},
+        views = {EnabledExercises.class, ExercisesWithTags.class},
+        version = 1,
+        exportSchema = false
+)
 public abstract class ERDatabase extends RoomDatabase {
     private static ERDatabase instance;
     public static final ExecutorService executorService = Executors.newSingleThreadExecutor();

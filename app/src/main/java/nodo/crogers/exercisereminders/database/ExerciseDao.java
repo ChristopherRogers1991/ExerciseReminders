@@ -19,22 +19,12 @@ public interface ExerciseDao {
     LiveData<List<Exercise>> getAll();
 
     @Query("""
-               WITH enabed_exercises AS (
-                   SELECT
-                       exercise.*
-                   FROM
-                       exercise
-                           JOIN exercise_to_tag ON exercise.id = exercise_to_tag.exerciseId
-                           JOIN tag on exercise_to_tag.tagId = tag.id
-                   WHERE
-                       exercise.enabled = 1
-                       AND tag.enabled = 1)
                SELECT
                    *
                FROM
-                   enabed_exercises
+                   enabled_exercises
                WHERE
-                   count = (SELECT min(count) FROM enabed_exercises WHERE enabled = 1)
+                   count = (SELECT min(count) FROM enabled_exercises WHERE enabled = 1)
            """)
     List<Exercise> getEligible();
 

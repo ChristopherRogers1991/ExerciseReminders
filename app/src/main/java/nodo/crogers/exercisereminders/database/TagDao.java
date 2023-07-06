@@ -35,6 +35,19 @@ public interface TagDao {
     @Update
     void update(Tag tag);
 
+    @Query("""
+           UPDATE
+               exercise
+           SET
+               count = (SELECT min(count) from enabled_exercises)
+           WHERE id IN (SELECT exercise.id FROM exercises_with_tags WHERE tagId = :tagId)
+    """)
+    void updateExerciseCounts(int tagId);
+
+    default void updateExerciseCounts(Tag tag) {
+        updateExerciseCounts(tag.id());
+    }
+
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     void insert(Tag tag);
 
@@ -46,6 +59,7 @@ public interface TagDao {
         tag.setCount(maxCount);
         tag.setEnabled(1);
         update(tag);
+        updateExerciseCounts(tag);
     }
 
     default void disable(Tag tag) {
