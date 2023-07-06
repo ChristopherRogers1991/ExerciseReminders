@@ -39,6 +39,7 @@ import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
 public class ExercisesFragment extends Fragment {
 
     private FragmentExercisesBinding binding;
+    private ExercisesViewModel exercisesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
@@ -49,7 +50,7 @@ public class ExercisesFragment extends Fragment {
         Button button = root.findViewById(R.id.button);
         button.setOnClickListener(this::buttonClicked);
 
-        ExercisesViewModel exercisesViewModel =
+        exercisesViewModel =
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
         initializeList();
@@ -57,24 +58,10 @@ public class ExercisesFragment extends Fragment {
     }
 
     private void initializeList() {
-        ERDatabase db = ERDatabase.getInstance(requireContext());
-        TagDao dao = db.tagDao();
-        Map<Tag, List<Exercise>> tagsToExercises = new HashMap<>();
-        CompletableFuture.runAsync(() -> {
-                            List<Tag> tags = dao.getAll();
-                            for (Tag tag : tags) {
-                                tagsToExercises.put(tag, dao.getExercises(tag));
-                            }
-                        },
-                        ERDatabase.executorService)
-                .thenRunAsync(() -> {
-                    final Activity activity = requireActivity();
-                    activity.runOnUiThread(() ->
-                    {
-                        ExpandableListView view = activity.findViewById(R.id.expandableList);
-                        view.setAdapter(new TaggedExerciseListAdapter(tagsToExercises));
-                    });
-                });
+        exercisesViewModel.getTagsToExercises().observeForever(_map -> {
+            ExpandableListView view = requireActivity().findViewById(R.id.expandableList);
+            view.setAdapter(new TaggedExerciseListAdapter(exercisesViewModel.getTagsToExercises()));
+        });
     }
 
     @Override

@@ -9,7 +9,12 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,26 +25,31 @@ import nodo.crogers.exercisereminders.database.Exercise;
 import nodo.crogers.exercisereminders.database.Tag;
 
 public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
-    private final Map<Tag, List<Exercise>> taggedExercises;
-    private final List<Tag> sortedTags;
+    private final LiveData<Map<Tag, List<Exercise>>> taggedExercises;
+    private Map<Tag, List<Exercise>> current;
+    private List<Tag> sortedTags;
 
-    public TaggedExerciseListAdapter(Map<Tag, List<Exercise>> taggedExercises) {
+    public TaggedExerciseListAdapter(LiveData<Map<Tag, List<Exercise>>> taggedExercises) {
         this.taggedExercises = taggedExercises;
-        this.sortedTags = taggedExercises.keySet()
-                .stream()
-                .sorted(Comparator.comparing(Tag::name))
-                .collect(Collectors.toList());
-        this.sortedTags.sort(Comparator.comparing(Tag::name));
+        this.current = new HashMap<>();
+        this.taggedExercises.observeForever(map -> {
+            sortedTags = map.keySet()
+                    .stream()
+                    .sorted(Comparator.comparing(Tag::name))
+                    .collect(Collectors.toList());
+            sortedTags.sort(Comparator.comparing(Tag::name));
+            current = map;
+        });
     }
 
     @Override
     public int getGroupCount() {
-        return taggedExercises.size();
+        return current.size();
     }
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return taggedExercises.get(sortedTags.get(groupPosition)).size();
+        return current.get(sortedTags.get(groupPosition)).size();
     }
 
     @Override
@@ -49,7 +59,7 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return taggedExercises.get(sortedTags.get(groupPosition)).get(childPosition);
+        return current.get(sortedTags.get(groupPosition)).get(childPosition);
     }
 
     @Override
@@ -101,7 +111,7 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
         LayoutInflater inflater = context.getSystemService(LayoutInflater.class);
         View childView = inflater.inflate(R.layout.expandable_list_exercise, null);
         Tag tag = sortedTags.get(groupPosition);
-        Exercise exercise = taggedExercises.get(tag)
+        Exercise exercise = current.get(tag)
                 .get(childPosition);
         ((TextView) childView.findViewById(R.id.recyclerView_text))
                 .setText(exercise.name());
