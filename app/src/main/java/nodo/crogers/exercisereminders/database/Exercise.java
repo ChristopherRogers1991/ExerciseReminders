@@ -69,26 +69,4 @@ public class Exercise {
         this.count = count;
     }
 
-    public static Exercise[] getDefaults(Context context) {
-        return new Exercise[]{
-                new Exercise(context.getString(R.string.push_ups)),
-                new Exercise(context.getString(R.string.sit_ups)),
-                new Exercise(context.getString(R.string.leg_lifts)),
-                new Exercise(context.getString(R.string.crunches)),
-                new Exercise(context.getString(R.string.plank)),
-                new Exercise(context.getString(R.string.squats)),
-                new Exercise(context.getString(R.string.single_leg_deadlifts)),
-                new Exercise(context.getString(R.string.standing_hamstring_stretch)),
-                new Exercise(context.getString(R.string.calf_stretch)),
-                new Exercise(context.getString(R.string.butterfly_stretch)),
-                new Exercise(context.getString(R.string.dips)),
-                new Exercise(context.getString(R.string.jumping_jacks)),
-                new Exercise(context.getString(R.string.quad_stretch)),
-                new Exercise(context.getString(R.string.calf_raises)),
-                new Exercise(context.getString(R.string.lunges)),
-                new Exercise(context.getString(R.string.wall_sit)),
-                new Exercise(context.getString(R.string.pull_ups)),
-                new Exercise(context.getString(R.string.chin_ups))
-        };
-    }
 }
