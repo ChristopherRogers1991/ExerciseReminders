@@ -40,7 +40,8 @@ public class ExercisesFragment extends Fragment {
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
         exercisesViewModel.getTagsToExercises().observeForever(map -> {
-            ExpandableListView view = requireActivity().findViewById(R.id.expandableList);
+            ExpandableListView view = binding.getRoot().findViewById(R.id.expandableList);
+            view = view != null ? view : requireActivity().findViewById(R.id.expandableList);
             view.setAdapter(new TaggedExerciseListAdapter(map));
         });
         return root;
