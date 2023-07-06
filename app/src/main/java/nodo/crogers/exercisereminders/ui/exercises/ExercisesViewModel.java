@@ -17,19 +17,14 @@ import nodo.crogers.exercisereminders.database.Tag;
 
 public class ExercisesViewModel extends AndroidViewModel {
 
-    private MutableLiveData<List<Exercise>> taggedExercises;
-
-    private MutableLiveData<Map<Tag, List<Exercise>>> tagsToExercises;
-    private final LiveData<List<Tag>> allTags;
-    private final LiveData<List<Exercise>> allExercises;
+    private final MutableLiveData<Map<Tag, List<Exercise>>> tagsToExercises;
     private final ERDatabase db;
 
     public ExercisesViewModel(Application application) {
         super(application);
         db = ERDatabase.getInstance(application);
-        taggedExercises = new MutableLiveData<>();
         tagsToExercises = new MutableLiveData<>();
-        allTags = db.tagDao().getAllLive();
+        LiveData<List<Tag>> allTags = db.tagDao().getAllLive();
         allTags.observeForever(tags -> {
             Map<Tag, List<Exercise>> map = new HashMap<>();
             ERDatabase.executorService.execute(() -> {
@@ -39,7 +34,7 @@ public class ExercisesViewModel extends AndroidViewModel {
                 tagsToExercises.postValue(map);
             });
         });
-        allExercises = db.exerciseDao().getAll();
+        LiveData<List<Exercise>> allExercises = db.exerciseDao().getAll();
         allExercises.observeForever(_exercises -> {
             Map<Tag, List<Exercise>> map = new HashMap<>();
             ERDatabase.executorService.execute(() -> {
@@ -54,19 +49,4 @@ public class ExercisesViewModel extends AndroidViewModel {
     public LiveData<Map<Tag, List<Exercise>>> getTagsToExercises() {
         return tagsToExercises;
     }
-    public LiveData<List<Exercise>> getTaggedExercises() {
-        return taggedExercises;
-    }
-
-    public void setTag(Tag tag) {
-        ERDatabase.executorService.execute(() -> {
-                List<Exercise> exercises = db.tagDao().getExercises(tag);
-                taggedExercises.postValue(exercises);
-        });
-    }
-
-    public LiveData<List<Tag>> getAllTags() {
-        return allTags;
-    }
-
 }
