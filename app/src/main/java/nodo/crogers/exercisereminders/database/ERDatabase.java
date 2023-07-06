@@ -23,7 +23,7 @@ import nodo.crogers.exercisereminders.R;
 @Database(entities = {Exercise.class, Tag.class, ExerciseTagPair.class}, version = 1, exportSchema = false)
 public abstract class ERDatabase extends RoomDatabase {
     private static ERDatabase instance;
-    public static final ExecutorService executorService = Executors.newFixedThreadPool(1);
+    public static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public abstract ExerciseDao exerciseDao();
 
