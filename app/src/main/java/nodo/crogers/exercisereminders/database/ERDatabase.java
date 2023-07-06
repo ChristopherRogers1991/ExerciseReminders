@@ -50,25 +50,25 @@ public abstract class ERDatabase extends RoomDatabase {
         return instance;
     }
 
-    public void enable(Exercise exercise) {
+    public void enableAsync(Exercise exercise) {
         ERDatabase.executorService.execute(() -> instance
                 .exerciseDao()
                 .enable(exercise));
     }
 
-    public void disable(Exercise exercise) {
+    public void disableAsync(Exercise exercise) {
         ERDatabase.executorService.execute(() -> instance
                 .exerciseDao()
                 .disable(exercise));
     }
 
-    public void enable(Tag tag) {
+    public void enableAsync(Tag tag) {
         ERDatabase.executorService.execute(() -> instance
                 .tagDao()
                 .enable(tag));
     }
 
-    public void disable(Tag tag) {
+    public void disableAsync(Tag tag) {
         ERDatabase.executorService.execute(() -> instance
                 .tagDao()
                 .disable(tag));
