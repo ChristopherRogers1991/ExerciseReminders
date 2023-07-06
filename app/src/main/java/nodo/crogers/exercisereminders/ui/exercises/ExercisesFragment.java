@@ -1,39 +1,25 @@
 package nodo.crogers.exercisereminders.ui.exercises;
 
-import android.app.Activity;
 import android.content.Context;
-import android.database.DataSetObserver;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListAdapter;
 import android.widget.ExpandableListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.stream.Collectors;
 
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
 import nodo.crogers.exercisereminders.database.Exercise;
-import nodo.crogers.exercisereminders.database.ExerciseDao;
-import nodo.crogers.exercisereminders.database.ExerciseTagPairDao;
 import nodo.crogers.exercisereminders.database.Tag;
-import nodo.crogers.exercisereminders.database.TagDao;
 import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
 
 public class ExercisesFragment extends Fragment {
@@ -53,15 +39,11 @@ public class ExercisesFragment extends Fragment {
         exercisesViewModel =
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
-        initializeList();
-        return root;
-    }
-
-    private void initializeList() {
         exercisesViewModel.getTagsToExercises().observeForever(map -> {
             ExpandableListView view = requireActivity().findViewById(R.id.expandableList);
             view.setAdapter(new TaggedExerciseListAdapter(map));
         });
+        return root;
     }
 
     @Override
@@ -89,8 +71,7 @@ public class ExercisesFragment extends Fragment {
             else  {
                 ERDatabase.getInstance(context).tagExercisesAsync(
                                 new Tag(tagNameInput.getText().toString()),
-                                new Exercise(exerciseNameInput.getText().toString()))
-                        .thenRun(this::initializeList);
+                                new Exercise(exerciseNameInput.getText().toString()));
             }
         });
 
