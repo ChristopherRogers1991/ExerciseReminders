@@ -14,7 +14,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
@@ -42,9 +47,25 @@ public class ExercisesFragment extends Fragment {
         exercisesViewModel.getTagsToExercises().observeForever(map -> {
             ExpandableListView view = binding.getRoot().findViewById(R.id.expandableList);
             view = view != null ? view : requireActivity().findViewById(R.id.expandableList);
-            view.setAdapter(new TaggedExerciseListAdapter(map));
+            TaggedExerciseListAdapter adapter =
+                    (TaggedExerciseListAdapter) view.getExpandableListAdapter();
+            Map<String, List<String>> newStrings = toStrings(map);
+            Map<String, List<String>> currentStrings =
+                    adapter == null ? Map.of() : toStrings(adapter.getTaggedExercises());
+            if (!newStrings.equals(currentStrings)) {
+                view.setAdapter(new TaggedExerciseListAdapter(map));
+            }
         });
         return root;
+    }
+
+    private Map<String, List<String>> toStrings(Map<Tag, List<Exercise>> tagListMap) {
+        Map<String, List<String>> result = new HashMap<>();
+        tagListMap.forEach((tag, exercises) -> {
+            result.put(tag.name(),
+                    exercises.stream().map(Exercise::name).collect(Collectors.toList()));
+        });
+        return result;
     }
 
     @Override

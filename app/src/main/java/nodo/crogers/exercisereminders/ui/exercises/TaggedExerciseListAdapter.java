@@ -32,6 +32,10 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
         this.sortedTags.sort(Comparator.comparing(Tag::name));
     }
 
+    public Map<Tag, List<Exercise>> getTaggedExercises() {
+        return taggedExercises;
+    }
+
     @Override
     public int getGroupCount() {
         return taggedExercises.size();

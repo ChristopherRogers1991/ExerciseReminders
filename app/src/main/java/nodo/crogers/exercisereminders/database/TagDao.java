@@ -25,7 +25,16 @@ public interface TagDao {
     @Query("SELECT * FROM tag where enabled = 1 AND count = (SELECT min(count) from tag where enabled = 1)")
     List<Exercise> getEligible();
 
-    @Query("SELECT * from Exercise where Exercise.id in (SELECT exerciseId from exercise_to_tag where tagId = :tagId)")
+    @Query("""
+        SELECT
+            *
+        FROM
+            exercise
+        WHERE
+            exercise.id IN (SELECT exerciseId from exercise_to_tag where tagId = :tagId)
+        ORDER BY
+            name ASC
+    """)
     List<Exercise> getExercises(int tagId);
 
     default List<Exercise> getExercises(Tag tag) {
