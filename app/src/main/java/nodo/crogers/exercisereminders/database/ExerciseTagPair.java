@@ -20,6 +20,12 @@ import androidx.room.Index;
                         onDelete = ForeignKey.CASCADE)},
         indices = {
                 @Index(
+                        value = {"exerciseId"}
+                ),
+                @Index(
+                        value = {"tagId"}
+                ),
+                @Index(
                         value = {"exerciseId", "tagId"},
                         unique = true)})
 public class ExerciseTagPair {
