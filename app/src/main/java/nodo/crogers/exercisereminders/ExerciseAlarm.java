@@ -68,7 +68,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
         Notification.Builder notificationBuilder =
                 new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setColor(context.getResources().getColor(R.color.bleu_de_france))
+                        .setColor(context.getResources().getColor(R.color.bleu_de_france2))
                         .setContentTitle(context.getString(R.string.exercise))
                         .setContentText(exercise.name())
                         .setGroup(NOTIFICATION_GROUP_ID)
@@ -76,7 +76,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
         Notification.Builder summaryNotificationBuilder =
                 new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_notification)
-                        .setColor(context.getResources().getColor(R.color.bleu_de_france))
+                        .setColor(context.getResources().getColor(R.color.bleu_de_france2))
                         .setGroup(NOTIFICATION_GROUP_ID)
                         .setGroupSummary(true)
                         .setAutoCancel(false);

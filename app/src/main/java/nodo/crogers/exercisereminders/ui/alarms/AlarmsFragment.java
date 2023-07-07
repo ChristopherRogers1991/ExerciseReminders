@@ -52,7 +52,7 @@ public class AlarmsFragment extends Fragment {
                 pauseButton.setBackgroundColor(context.getColor(R.color.florescent_cyan));
             } else {
                 pauseButton.setText(R.string.pause);
-                pauseButton.setBackgroundColor(context.getColor(R.color.bleu_de_france));
+                pauseButton.setBackgroundColor(context.getColor(R.color.bleu_de_france2));
             }
         };
         updatePauseButton.run();
