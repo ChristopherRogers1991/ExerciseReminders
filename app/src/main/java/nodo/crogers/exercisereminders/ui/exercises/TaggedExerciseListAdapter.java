@@ -131,26 +131,24 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
             LiveData<List<Tag>> exerciseTags = ERDatabase.getInstance(context)
                     .exerciseDao()
                     .getTags(exercise);
-            disabledByText.post(() -> {
-                exerciseTags.observe(lifecycleOwner, tags -> {
-                    List<String> disabledTags = tags.stream()
-                            .filter(tag -> tag.enabled() == 0)
-                            .filter(tag -> tag.id() != parentTag.id())
-                            .map(Tag::name)
-                            .collect(Collectors.toList());
-                    disabledByText.post(() -> {
-                        if (disabledTags.isEmpty()) {
-                            disabledByText.setVisibility(View.GONE);
-                        } else {
-                            disabledByText.setText(
-                                    context.getResources()
-                                            .getString(R.string.disabled_by,
-                                                    String.join(", ", disabledTags)));
-                            disabledByText.setVisibility(View.VISIBLE);
-                        }
-                    });
+            disabledByText.post(() -> exerciseTags.observe(lifecycleOwner, tags -> {
+                List<String> disabledTags = tags.stream()
+                        .filter(tag -> tag.enabled() == 0)
+                        .filter(tag -> tag.id() != parentTag.id())
+                        .map(Tag::name)
+                        .collect(Collectors.toList());
+                disabledByText.post(() -> {
+                    if (disabledTags.isEmpty()) {
+                        disabledByText.setVisibility(View.GONE);
+                    } else {
+                        disabledByText.setText(
+                                context.getResources()
+                                        .getString(R.string.disabled_by,
+                                                String.join(", ", disabledTags)));
+                        disabledByText.setVisibility(View.VISIBLE);
+                    }
                 });
-            });
+            }));
         });
 
         return childView;

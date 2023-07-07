@@ -63,10 +63,8 @@ public class ExercisesFragment extends Fragment {
 
     private Map<String, List<String>> toStrings(Map<Tag, List<Exercise>> tagListMap) {
         Map<String, List<String>> result = new HashMap<>();
-        tagListMap.forEach((tag, exercises) -> {
-            result.put(tag.name(),
-                    exercises.stream().map(Exercise::name).collect(Collectors.toList()));
-        });
+        tagListMap.forEach((tag, exercises) -> result.put(tag.name(),
+                exercises.stream().map(Exercise::name).collect(Collectors.toList())));
         return result;
     }
 

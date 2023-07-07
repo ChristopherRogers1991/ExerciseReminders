@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     private AppBarConfiguration mAppBarConfiguration;
-    private ActivityMainBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
 
         PreferenceManager preferenceManager = PreferenceManager.getInstance(this);
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        nodo.crogers.exercisereminders.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
         setSupportActionBar(binding.appBarMain.toolbar);

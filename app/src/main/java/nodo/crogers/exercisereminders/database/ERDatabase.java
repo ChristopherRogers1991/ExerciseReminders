@@ -44,9 +44,7 @@ public abstract class ERDatabase extends RoomDatabase {
                             @Override
                             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                 super.onCreate(db);
-                                executorService.execute(() -> {
-                                    initializeDb(context);
-                                });
+                                executorService.execute(() -> initializeDb(context));
                             }
                         })
                         .build();
@@ -174,13 +172,13 @@ public abstract class ERDatabase extends RoomDatabase {
     }
 
     @SafeVarargs
-    private final <T> void insertAll(Consumer<T> insertFunction, T... items) {
+    private <T> void insertAll(Consumer<T> insertFunction, T... items) {
         for (T item : items) {
             insertFunction.accept(item);
         }
     }
 
-    private final <T> void insertAll(Consumer<T> insertFunction, Stream<T> items) {
+    private <T> void insertAll(Consumer<T> insertFunction, Stream<T> items) {
         // Stream::forEach does not work for some unknown reason; must copy to a list.
         List<T> copy = items.collect(Collectors.toList());
         copy.forEach(insertFunction);

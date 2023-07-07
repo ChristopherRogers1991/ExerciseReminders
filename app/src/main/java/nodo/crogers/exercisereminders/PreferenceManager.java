@@ -12,7 +12,7 @@ public class PreferenceManager {
     private static final String START_MINUTE = "start-minute";
     private static final String END_HOUR = "end-hour";
     private static final String END_MINUTE = "end-minute";
-    private static String FREQUENCY = "frequency";
+    private static final String FREQUENCY = "frequency";
 
     private static final String NEXT_SCHEDULED_ALARM = "next-scheduled-alarm";
 

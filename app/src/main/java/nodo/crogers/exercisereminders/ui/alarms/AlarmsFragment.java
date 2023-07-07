@@ -73,13 +73,10 @@ public class AlarmsFragment extends Fragment {
         Runnable setStartButtonText = () -> startTimeButton.setText(startTimeButtonText(preferenceManager));
         setStartButtonText.run();
         startTimeButton.setOnClickListener(_view -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    preferenceManager.setStartTime(hourOfDay, minute);
-                    setStartButtonText.run();
-                    ExerciseAlarm.scheduleNext(context);
-                }
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.DialogTheme, (view, hourOfDay, minute) -> {
+                preferenceManager.setStartTime(hourOfDay, minute);
+                setStartButtonText.run();
+                ExerciseAlarm.scheduleNext(context);
             }, 8, 0, false);
             timePickerDialog.show();
         });
@@ -88,12 +85,9 @@ public class AlarmsFragment extends Fragment {
         Runnable setEndButtonText = () -> endTimeButton.setText(endTimeButtonText(preferenceManager));
         setEndButtonText.run();
         endTimeButton.setOnClickListener(_view -> {
-            TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.DialogTheme, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                    preferenceManager.setEndTime(hourOfDay, minute);
-                    setEndButtonText.run();
-                }
+            TimePickerDialog timePickerDialog = new TimePickerDialog(context, R.style.DialogTheme, (view, hourOfDay, minute) -> {
+                preferenceManager.setEndTime(hourOfDay, minute);
+                setEndButtonText.run();
             }, 8, 0, false);
             timePickerDialog.show();
         });
@@ -102,32 +96,29 @@ public class AlarmsFragment extends Fragment {
         Runnable setFrequencyInputText = () -> frequencyInput.setText(
                 String.format(Locale.getDefault(),"%d", preferenceManager.frequency()));
         setFrequencyInputText.run();
-        frequencyInput.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    try {
-                        int frequency = Integer.parseInt(frequencyInput.getText().toString());
-                        if (frequency < 10) {
-                            frequency = 10;
-                            Toast.makeText(context, R.string.minimum_frequency, Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                        preferenceManager.setFrequency(frequency);
-                        ExerciseAlarm.scheduleNext(context);
-                    } catch (Exception e) {
-                        // Do nothing
+        frequencyInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE) {
+                try {
+                    int frequency = Integer.parseInt(frequencyInput.getText().toString());
+                    if (frequency < 10) {
+                        frequency = 10;
+                        Toast.makeText(context, R.string.minimum_frequency, Toast.LENGTH_SHORT)
+                                .show();
                     }
-                    setFrequencyInputText.run();
-                    InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
-                    if(imm.isAcceptingText()) {
-                        imm.hideSoftInputFromWindow(container.findFocus().getWindowToken(), 0);
-                    }
-                    container.clearFocus();
-                    return true;
+                    preferenceManager.setFrequency(frequency);
+                    ExerciseAlarm.scheduleNext(context);
+                } catch (Exception e) {
+                    // Do nothing
                 }
-                return false;
+                setFrequencyInputText.run();
+                InputMethodManager imm = (InputMethodManager) context.getSystemService(INPUT_METHOD_SERVICE);
+                if(imm.isAcceptingText()) {
+                    imm.hideSoftInputFromWindow(container.findFocus().getWindowToken(), 0);
+                }
+                container.clearFocus();
+                return true;
             }
+            return false;
         });
 
 
