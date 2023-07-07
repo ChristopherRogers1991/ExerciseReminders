@@ -9,6 +9,7 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
@@ -26,7 +27,11 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
     private final Map<Tag, List<Exercise>> taggedExercises;
     private final List<Tag> sortedTags;
 
-    public TaggedExerciseListAdapter(Map<Tag, List<Exercise>> taggedExercises) {
+    private final LifecycleOwner lifecycleOwner;
+
+    public TaggedExerciseListAdapter(
+            LifecycleOwner lifecycleOwner, Map<Tag, List<Exercise>> taggedExercises) {
+        this.lifecycleOwner = lifecycleOwner;
         this.taggedExercises = taggedExercises;
         this.sortedTags = taggedExercises.keySet()
                 .stream()
@@ -128,7 +133,7 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
                     .exerciseDao()
                     .getTags(exercise);
             disabledByText.post(() -> {
-                exerciseTags.observeForever(tags -> {
+                exerciseTags.observe(lifecycleOwner, tags -> {
                     List<String> disabledTags = tags.stream()
                             .filter(tag -> tag.enabled() == 0)
                             .filter(tag -> tag.id() != parentTag.id())

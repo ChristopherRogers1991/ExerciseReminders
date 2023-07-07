@@ -14,7 +14,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +29,6 @@ import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
 public class ExercisesFragment extends Fragment {
 
     private FragmentExercisesBinding binding;
-    private ExercisesViewModel exercisesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container,
@@ -41,22 +39,26 @@ public class ExercisesFragment extends Fragment {
         Button button = root.findViewById(R.id.button);
         button.setOnClickListener(this::buttonClicked);
 
-        exercisesViewModel =
+        ExercisesViewModel exercisesViewModel =
                 new ViewModelProvider(this).get(ExercisesViewModel.class);
 
-        exercisesViewModel.getTagsToExercises().observeForever(map -> {
-            ExpandableListView view = binding.getRoot().findViewById(R.id.expandableList);
-            view = view != null ? view : requireActivity().findViewById(R.id.expandableList);
-            TaggedExerciseListAdapter adapter =
-                    (TaggedExerciseListAdapter) view.getExpandableListAdapter();
-            Map<String, List<String>> newStrings = toStrings(map);
-            Map<String, List<String>> currentStrings =
-                    adapter == null ? Map.of() : toStrings(adapter.getTaggedExercises());
-            if (!newStrings.equals(currentStrings)) {
-                view.setAdapter(new TaggedExerciseListAdapter(map));
-            }
-        });
+        exercisesViewModel.getTagsToExercises()
+                .observe(getViewLifecycleOwner(), this::onTagsToExercisesUpdate);
+
         return root;
+    }
+
+    private void onTagsToExercisesUpdate(Map<Tag, List<Exercise>> map) {
+        ExpandableListView view = binding.getRoot().findViewById(R.id.expandableList);
+        view = view != null ? view : requireActivity().findViewById(R.id.expandableList);
+        TaggedExerciseListAdapter adapter =
+                (TaggedExerciseListAdapter) view.getExpandableListAdapter();
+        Map<String, List<String>> newStrings = toStrings(map);
+        Map<String, List<String>> currentStrings =
+                adapter == null ? Map.of() : toStrings(adapter.getTaggedExercises());
+        if (!newStrings.equals(currentStrings)) {
+            view.setAdapter(new TaggedExerciseListAdapter(getViewLifecycleOwner(), map));
+        }
     }
 
     private Map<String, List<String>> toStrings(Map<Tag, List<Exercise>> tagListMap) {
