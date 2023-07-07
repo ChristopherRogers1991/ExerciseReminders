@@ -1,14 +1,10 @@
 package nodo.crogers.exercisereminders.database;
 
-import android.content.Context;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
-
-import nodo.crogers.exercisereminders.R;
 
 @Entity(indices = {@Index(value="name", unique = true)})
 public class Exercise {

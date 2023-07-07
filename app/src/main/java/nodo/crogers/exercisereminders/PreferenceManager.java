@@ -3,9 +3,6 @@ package nodo.crogers.exercisereminders;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import androidx.lifecycle.LiveData;
-
-import java.time.Instant;
 import java.util.Optional;
 
 public class PreferenceManager {

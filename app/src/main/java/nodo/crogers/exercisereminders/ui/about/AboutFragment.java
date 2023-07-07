@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.databinding.FragmentAboutBinding;

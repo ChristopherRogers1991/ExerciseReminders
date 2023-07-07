@@ -19,7 +19,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import java.text.DateFormat;
@@ -32,7 +31,6 @@ import nodo.crogers.exercisereminders.ExerciseAlarm;
 import nodo.crogers.exercisereminders.PreferenceManager;
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.databinding.FragmentAlarmsBinding;
-import nodo.crogers.exercisereminders.ui.exercises.ExercisesViewModel;
 
 public class AlarmsFragment extends Fragment {
 
