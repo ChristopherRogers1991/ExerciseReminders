@@ -67,14 +67,16 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         Notification.Builder notificationBuilder =
                 new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setColor(context.getResources().getColor(R.color.bleu_de_france))
                         .setContentTitle(context.getString(R.string.exercise))
                         .setContentText(exercise.name())
                         .setGroup(NOTIFICATION_GROUP_ID)
                         .setAutoCancel(false);
         Notification.Builder summaryNotificationBuilder =
                 new Notification.Builder(context, MainActivity.NOTIFICATION_CHANNEL_ID)
-                        .setSmallIcon(R.mipmap.ic_launcher_round)
+                        .setSmallIcon(R.drawable.ic_notification)
+                        .setColor(context.getResources().getColor(R.color.bleu_de_france))
                         .setGroup(NOTIFICATION_GROUP_ID)
                         .setGroupSummary(true)
                         .setAutoCancel(false);
