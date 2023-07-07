@@ -12,11 +12,36 @@ import java.util.List;
 
 @Dao
 public interface ExerciseDao {
-    @Query("SELECT * FROM exercise ORDER BY name ASC")
+    @Query("SELECT * FROM Exercise WHERE name = :name")
+    Exercise getByName(String name);
+
+    @Query("SELECT * FROM Exercise ORDER BY name ASC")
     LiveData<List<Exercise>> getAll();
 
-    @Query("SELECT * FROM exercise where enabled = 1 AND count = (SELECT min(count) from exercise where enabled = 1)")
+    @Query("""
+               SELECT
+                   *
+               FROM
+                   enabled_exercises
+               WHERE
+                   count = (SELECT min(count) FROM enabled_exercises WHERE enabled = 1)
+           """)
     List<Exercise> getEligible();
+
+    @Query("""
+               SELECT
+                   *
+               FROM
+                   tag
+               WHERE
+                   tag.id IN (SELECT tagId FROM exercise_to_tag WHERE exerciseId = :exerciseId)
+               ORDER BY tag.name ASC
+           """)
+    LiveData<List<Tag>> getTags(int exerciseId);
+
+    default LiveData<List<Tag>> getTags(Exercise exercise) {
+        return getTags(exercise.id());
+    }
 
     @Update
     void update(Exercise exercise);

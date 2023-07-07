@@ -1,18 +1,13 @@
 package nodo.crogers.exercisereminders.database;
 
-import android.content.Context;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import nodo.crogers.exercisereminders.R;
-
 @Entity(indices = {@Index(value="name", unique = true)})
-public class Exercise {
-
+public class Tag {
     @PrimaryKey(autoGenerate = true)
     private int id;
 
@@ -26,13 +21,13 @@ public class Exercise {
     private int count;
 
     @Ignore
-    public Exercise(String name, int id) {
+    public Tag(String name, int id) {
         this.name = name;
         this.id = id;
         this.enabled = 1;
     }
 
-    public Exercise(String name) {
+    public Tag(String name) {
         this.name = name;
         this.enabled = 1;
     }
@@ -68,5 +63,4 @@ public class Exercise {
     public void setCount(int count) {
         this.count = count;
     }
-
 }

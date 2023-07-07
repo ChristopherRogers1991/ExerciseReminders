@@ -9,16 +9,32 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.function.Consumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import nodo.crogers.exercisereminders.R;
 
 // TODO - export schema?
-@Database(entities = {Exercise.class}, version = 1, exportSchema = false)
+@Database(
+        entities = {Exercise.class, Tag.class, ExerciseTagPair.class},
+        views = {EnabledExercises.class, ExercisesWithTags.class},
+        version = 1,
+        exportSchema = false
+)
 public abstract class ERDatabase extends RoomDatabase {
     private static ERDatabase instance;
     public static final ExecutorService executorService = Executors.newSingleThreadExecutor();
 
     public abstract ExerciseDao exerciseDao();
+
+    public abstract TagDao tagDao();
+
+    public abstract ExerciseTagPairDao exerciseTagPairDao();
 
     public static ERDatabase getInstance(Context context) {
         if (instance == null) {
@@ -29,10 +45,7 @@ public abstract class ERDatabase extends RoomDatabase {
                             public void onCreate(@NonNull SupportSQLiteDatabase db) {
                                 super.onCreate(db);
                                 executorService.execute(() -> {
-                                    ExerciseDao dao = instance.exerciseDao();
-                                    for (Exercise exercise : Exercise.getDefaults(context)) {
-                                        dao.insert(exercise);
-                                    }
+                                    initializeDb(context);
                                 });
                             }
                         })
@@ -41,4 +54,136 @@ public abstract class ERDatabase extends RoomDatabase {
         }
         return instance;
     }
+
+    public void enableAsync(Exercise exercise) {
+        ERDatabase.executorService.execute(() -> instance
+                .exerciseDao()
+                .enable(exercise));
+    }
+
+    public void disableAsync(Exercise exercise) {
+        ERDatabase.executorService.execute(() -> instance
+                .exerciseDao()
+                .disable(exercise));
+    }
+
+    public void enableAsync(Tag tag) {
+        ERDatabase.executorService.execute(() -> instance
+                .tagDao()
+                .enable(tag));
+    }
+
+    public void disableAsync(Tag tag) {
+        ERDatabase.executorService.execute(() -> instance
+                .tagDao()
+                .disable(tag));
+    }
+
+    private static void initializeDb(Context context) {
+        ERDatabase db = getInstance(context);
+
+        int tagId = 1;
+        Tag upperBody = new Tag("Upper Body", tagId++);
+        Tag lowerBody = new Tag("Lower Body", tagId++);
+        Tag abs = new Tag("Abs", tagId++);
+        Tag stretch = new Tag("Stretch", tagId++);
+        Tag cardio = new Tag("Cardio", tagId++);
+
+        int exerciseId = 1;
+        Exercise pushups = new Exercise(context.getString(R.string.push_ups), exerciseId++);
+        Exercise dips = new Exercise(context.getString(R.string.dips), exerciseId++);
+        Exercise pullUps = new Exercise(context.getString(R.string.pull_ups), exerciseId++);
+        Exercise chinUps = new Exercise(context.getString(R.string.chin_ups), exerciseId++);
+
+        Exercise squats = new Exercise(context.getString(R.string.squats), exerciseId++);
+        Exercise singleLegDeadlifts =
+                new Exercise(context.getString(R.string.single_leg_deadlifts), exerciseId++);
+        Exercise calfRaises = new Exercise(context.getString(R.string.calf_raises), exerciseId++);
+        Exercise lunges = new Exercise(context.getString(R.string.lunges), exerciseId++);
+        Exercise wallSit = new Exercise(context.getString(R.string.wall_sit), exerciseId++);
+
+        Exercise sitUps = new Exercise(context.getString(R.string.sit_ups), exerciseId++);
+        Exercise legLifts = new Exercise(context.getString(R.string.leg_lifts), exerciseId++);
+        Exercise plank = new Exercise(context.getString(R.string.plank), exerciseId++);
+        Exercise crunches = new Exercise(context.getString(R.string.crunches), exerciseId++);
+
+        Exercise standingHamstringStretch =
+                new Exercise(context.getString(R.string.standing_hamstring_stretch), exerciseId++);
+        Exercise calfStretch = new Exercise(context.getString(R.string.calf_stretch), exerciseId++);
+        Exercise butterflyStretch = new Exercise(context.getString(R.string.butterfly_stretch), exerciseId++);
+        Exercise quadStretch = new Exercise(context.getString(R.string.quad_stretch), exerciseId++);
+
+        Exercise jumpingJacks = new Exercise(context.getString(R.string.jumping_jacks), exerciseId++);
+
+        db.tagExercises(upperBody, pushups, dips, pullUps, chinUps);
+        db.tagExercises(lowerBody,
+                        squats,
+                        singleLegDeadlifts,
+                        calfRaises,
+                        lunges,
+                        wallSit,
+                        standingHamstringStretch,
+                        quadStretch,
+                        calfStretch);
+        db.tagExercises(abs, sitUps, crunches, legLifts, plank);
+        db.tagExercises(stretch,
+                        standingHamstringStretch,
+                        calfStretch,
+                        butterflyStretch,
+                        quadStretch);
+        db.tagExercises(cardio, jumpingJacks);
+    }
+
+    private void tagExercises(Tag tag, Exercise... exercises) {
+        insertTags(tag);
+        insertExercises(exercises);
+        Tag tagWithCorrectId = tagDao().getByName(tag.name());
+        insertAll(instance.exerciseTagPairDao()::insert,
+                 Arrays.stream(exercises)
+                         .map(exercise -> exerciseDao().getByName(exercise.name()))
+                         .map(exerciseWithCorrectId ->
+                                 new ExerciseTagPair(exerciseWithCorrectId, tagWithCorrectId)));
+    }
+
+    private void tagExercise(Exercise exercise, Tag... tags) {
+        insertExercises(exercise);
+        insertTags(tags);
+        Exercise exerciseWithCorrectId = exerciseDao().getByName(exercise.name());
+        insertAll(instance.exerciseTagPairDao()::insert,
+                (ExerciseTagPair[]) Arrays.stream(tags)
+                        .map(tag -> tagDao().getByName(tag.name()))
+                        .map(tagWithCorrectId ->
+                                new ExerciseTagPair(exerciseWithCorrectId, tagWithCorrectId))
+                        .toArray());
+    }
+
+    public CompletableFuture<Void> tagExerciseAsync(Exercise exercise, Tag... tags) {
+        return CompletableFuture.runAsync(() -> tagExercise(exercise, tags), executorService);
+    }
+
+    public CompletableFuture<Void> tagExercisesAsync(Tag tag, Exercise... exercises) {
+        return CompletableFuture.runAsync(() -> tagExercises(tag, exercises), executorService);
+    }
+
+    private void insertExercises(Exercise... exercises) {
+        insertAll(instance.exerciseDao()::insert, exercises);
+    }
+
+    private void insertTags(Tag... tags) {
+        insertAll(instance.tagDao()::insert, tags);
+    }
+
+    @SafeVarargs
+    private final <T> void insertAll(Consumer<T> insertFunction, T... items) {
+        for (T item : items) {
+            insertFunction.accept(item);
+        }
+    }
+
+    private final <T> void insertAll(Consumer<T> insertFunction, Stream<T> items) {
+        // Stream::forEach does not work for some unknown reason; must copy to a list.
+        List<T> copy = items.collect(Collectors.toList());
+        copy.forEach(insertFunction);
+    }
+
 }
