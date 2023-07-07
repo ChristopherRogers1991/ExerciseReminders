@@ -181,7 +181,7 @@ public abstract class ERDatabase extends RoomDatabase {
     }
 
     private final <T> void insertAll(Consumer<T> insertFunction, Stream<T> items) {
-        // Strem::forEach does not work for some unknown reason; must copy to a list.
+        // Stream::forEach does not work for some unknown reason; must copy to a list.
         List<T> copy = items.collect(Collectors.toList());
         copy.forEach(insertFunction);
     }
