@@ -1,22 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
-    android:layout_gravity="center"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="match_parent">
 
     <CheckBox
-        android:layout_marginStart="50dp"
-        android:id="@+id/recyclerView_checkBox"
+        android:id="@+id/listItem_exerciseEnabledCheckbox"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/recyclerView_text"
+        android:id="@+id/listVIew_exerciseNameText"
         android:layout_width="wrap_content"
-        android:layout_gravity="center"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Dummy text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Menu" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Menu"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/listItem_exerciseEnabledCheckbox"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/listVIew_exerciseDisabledByText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="Disabled by: Upper Body, Equipment"
+        android:ellipsize="end"
+        android:textAppearance="@style/TextAppearance.AppCompat.Small"
+        app:layout_constraintStart_toEndOf="@+id/listItem_exerciseEnabledCheckbox"
+        app:layout_constraintTop_toBottomOf="@+id/listVIew_exerciseNameText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

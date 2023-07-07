@@ -28,12 +28,21 @@ public interface ExerciseDao {
            """)
     List<Exercise> getEligible();
 
-    @Query("SELECT * FROM tag WHERE tag.id IN (SELECT tagId FROM exercise_to_tag WHERE exerciseId = :exerciseId)")
+    @Query("""
+               SELECT
+                   *
+               FROM
+                   tag
+               WHERE
+                   tag.id IN (SELECT tagId FROM exercise_to_tag WHERE exerciseId = :exerciseId)
+               ORDER BY tag.name ASC
+           """)
     LiveData<List<Tag>> getTags(int exerciseId);
 
     default LiveData<List<Tag>> getTags(Exercise exercise) {
         return getTags(exercise.id());
     }
+
     @Update
     void update(Exercise exercise);
 

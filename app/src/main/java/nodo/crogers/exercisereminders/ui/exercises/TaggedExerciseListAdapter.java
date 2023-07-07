@@ -9,6 +9,9 @@ import android.widget.CheckBox;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -77,9 +80,9 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
         LayoutInflater inflater = context.getSystemService(LayoutInflater.class);
         View groupView = inflater.inflate(R.layout.expandable_list_tag, null);
         Tag tag = sortedTags.get(groupPosition);
-        ((TextView) groupView.findViewById(R.id.recyclerView_text))
+        ((TextView) groupView.findViewById(R.id.listVIew_exerciseNameText))
                 .setText(tag.name());
-        CheckBox checkBox = groupView.findViewById(R.id.recyclerView_checkBox);
+        CheckBox checkBox = groupView.findViewById(R.id.listItem_exerciseEnabledCheckbox);
         checkBox.setChecked(tag.enabled() == 1);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -104,12 +107,12 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
         Context context = parent.getContext();
         LayoutInflater inflater = context.getSystemService(LayoutInflater.class);
         View childView = inflater.inflate(R.layout.expandable_list_exercise, null);
-        Tag tag = sortedTags.get(groupPosition);
-        Exercise exercise = taggedExercises.get(tag)
+        Tag parentTag = sortedTags.get(groupPosition);
+        Exercise exercise = taggedExercises.get(parentTag)
                 .get(childPosition);
-        ((TextView) childView.findViewById(R.id.recyclerView_text))
+        ((TextView) childView.findViewById(R.id.listVIew_exerciseNameText))
                 .setText(exercise.name());
-        CheckBox checkBox = childView.findViewById(R.id.recyclerView_checkBox);
+        CheckBox checkBox = childView.findViewById(R.id.listItem_exerciseEnabledCheckbox);
         checkBox.setChecked(exercise.enabled() == 1);
         checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
@@ -118,6 +121,34 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
                 ERDatabase.getInstance(context).disableAsync(exercise);
             }
         });
+        TextView disabledByText = childView.findViewById(R.id.listVIew_exerciseDisabledByText);
+        disabledByText.setVisibility(View.GONE);
+        ERDatabase.executorService.execute(() -> {
+            LiveData<List<Tag>> exerciseTags = ERDatabase.getInstance(context)
+                    .exerciseDao()
+                    .getTags(exercise);
+            disabledByText.post(() -> {
+                exerciseTags.observeForever(tags -> {
+                    List<String> disabledTags = tags.stream()
+                            .filter(tag -> tag.enabled() == 0)
+                            .filter(tag -> tag.id() != parentTag.id())
+                            .map(Tag::name)
+                            .collect(Collectors.toList());
+                    disabledByText.post(() -> {
+                        if (disabledTags.isEmpty()) {
+                            disabledByText.setVisibility(View.GONE);
+                        } else {
+                            disabledByText.setText(
+                                    context.getResources()
+                                            .getString(R.string.disabled_by,
+                                                    String.join(", ", disabledTags)));
+                            disabledByText.setVisibility(View.VISIBLE);
+                        }
+                    });
+                });
+            });
+        });
+
         return childView;
     }
 
