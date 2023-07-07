@@ -16,7 +16,8 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:importantForAutofill="no" />
 
     <EditText
         android:id="@+id/tagNameText"
@@ -28,5 +29,6 @@
         android:inputType="text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/exerciseNameText" />
+        app:layout_constraintTop_toBottomOf="@id/exerciseNameText"
+        android:importantForAutofill="no" />
 </androidx.constraintlayout.widget.ConstraintLayout>

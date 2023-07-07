@@ -38,7 +38,7 @@
     <string name="i_agree">I Agree</string>
     <string name="close_app">Close App</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">Ok</string>
+    <string name="ok">OK</string>
     <string name="exercise_name">Exercise Name</string>
     <string name="exercise_reminders">Exercise Reminders</string>
     <string name="created_by">This application was created by Christopher Rogers. It is made available under the terms of the GPLv3.</string>

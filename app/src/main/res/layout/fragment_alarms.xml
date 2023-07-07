@@ -90,7 +90,8 @@
         android:inputType="number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/endTimeButton" />
+        app:layout_constraintTop_toBottomOf="@+id/endTimeButton"
+        android:importantForAutofill="no" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -109,7 +110,8 @@
         android:text="January 1st, 11:00 AM"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:id="@+id/textView5"

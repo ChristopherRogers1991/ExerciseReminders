@@ -1,5 +1,6 @@
 package nodo.crogers.exercisereminders.ui.exercises;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,7 +83,7 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
         LayoutInflater inflater = context.getSystemService(LayoutInflater.class);
-        View groupView = inflater.inflate(R.layout.expandable_list_tag, null);
+        @SuppressLint("InflateParams") View groupView = inflater.inflate(R.layout.expandable_list_tag, null);
         Tag tag = sortedTags.get(groupPosition);
         ((TextView) groupView.findViewById(R.id.listVIew_exerciseNameText))
                 .setText(tag.name());
@@ -110,7 +111,7 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
         LayoutInflater inflater = context.getSystemService(LayoutInflater.class);
-        View childView = inflater.inflate(R.layout.expandable_list_exercise, null);
+        @SuppressLint("InflateParams") View childView = inflater.inflate(R.layout.expandable_list_exercise, null);
         Tag parentTag = sortedTags.get(groupPosition);
         Exercise exercise = taggedExercises.get(parentTag)
                 .get(childPosition);
