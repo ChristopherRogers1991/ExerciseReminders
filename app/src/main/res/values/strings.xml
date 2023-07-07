@@ -52,8 +52,8 @@
     <string name="start_time">Start Time</string>
     <string name="default_end_time">12:00 PM</string>
     <string name="end_time">End Time</string>
-    <string name="frequency">Frequency</string>
-    <string name="frequency_hint">60 (minutes)</string>
+    <string name="frequency">Frequency (mins)</string>
+    <string name="frequency_hint">60</string>
     <string name="add_exercise">Add Exercise</string>
     <string name="terms">Improper exercise can result in injury. Before using this application, consult with your doctor. By continuing to use this application, you agree to hold its author blameless in the event of any injury incurred while using this application.</string>
     <string name="random_exercise">Random Exercise</string>
