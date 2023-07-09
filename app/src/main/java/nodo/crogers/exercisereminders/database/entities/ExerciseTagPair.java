@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.database;
+package nodo.crogers.exercisereminders.database.entities;
 
 import androidx.room.Entity;
 import androidx.room.ForeignKey;

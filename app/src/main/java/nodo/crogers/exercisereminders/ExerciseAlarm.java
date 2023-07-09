@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Random;
 
 import nodo.crogers.exercisereminders.database.ERDatabase;
-import nodo.crogers.exercisereminders.database.Exercise;
-import nodo.crogers.exercisereminders.database.ExerciseDao;
+import nodo.crogers.exercisereminders.database.entities.Exercise;
+import nodo.crogers.exercisereminders.database.daos.ExerciseDao;
 import nodo.crogers.exercisereminders.ui.alarms.AlarmsViewModel;
 
 // TODO - refactor: extract scheduling, improve handling of LiveData

@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.database;
+package nodo.crogers.exercisereminders.database.views;
 
 import androidx.room.DatabaseView;
 

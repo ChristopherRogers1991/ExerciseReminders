@@ -1,4 +1,4 @@
-package nodo.crogers.exercisereminders.database;
+package nodo.crogers.exercisereminders.database.daos;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -9,6 +9,9 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
+
+import nodo.crogers.exercisereminders.database.entities.Exercise;
+import nodo.crogers.exercisereminders.database.entities.Tag;
 
 @Dao
 public interface TagDao {

@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
-import nodo.crogers.exercisereminders.database.Exercise;
-import nodo.crogers.exercisereminders.database.Tag;
+import nodo.crogers.exercisereminders.database.entities.Exercise;
+import nodo.crogers.exercisereminders.database.entities.Tag;
 import nodo.crogers.exercisereminders.databinding.FragmentExercisesBinding;
 
 public class ExercisesFragment extends Fragment {

@@ -11,8 +11,8 @@ import java.util.List;
 import java.util.Map;
 
 import nodo.crogers.exercisereminders.database.ERDatabase;
-import nodo.crogers.exercisereminders.database.Exercise;
-import nodo.crogers.exercisereminders.database.Tag;
+import nodo.crogers.exercisereminders.database.entities.Exercise;
+import nodo.crogers.exercisereminders.database.entities.Tag;
 
 public class ExercisesViewModel extends AndroidViewModel {
 

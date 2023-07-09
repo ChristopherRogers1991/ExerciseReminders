@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 import nodo.crogers.exercisereminders.R;
 import nodo.crogers.exercisereminders.database.ERDatabase;
-import nodo.crogers.exercisereminders.database.Exercise;
-import nodo.crogers.exercisereminders.database.Tag;
+import nodo.crogers.exercisereminders.database.entities.Exercise;
+import nodo.crogers.exercisereminders.database.entities.Tag;
 
 public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
     private final Map<Tag, List<Exercise>> taggedExercises;
