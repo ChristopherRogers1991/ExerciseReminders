@@ -18,6 +18,14 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import nodo.crogers.exercisereminders.R;
+import nodo.crogers.exercisereminders.database.daos.ExerciseDao;
+import nodo.crogers.exercisereminders.database.daos.ExerciseTagPairDao;
+import nodo.crogers.exercisereminders.database.daos.TagDao;
+import nodo.crogers.exercisereminders.database.entities.Exercise;
+import nodo.crogers.exercisereminders.database.entities.ExerciseTagPair;
+import nodo.crogers.exercisereminders.database.entities.Tag;
+import nodo.crogers.exercisereminders.database.views.EnabledExercises;
+import nodo.crogers.exercisereminders.database.views.ExercisesWithTags;
 
 // TODO - export schema?
 @Database(
@@ -80,38 +88,38 @@ public abstract class ERDatabase extends RoomDatabase {
     private static void initializeDb(Context context) {
         ERDatabase db = getInstance(context);
 
-        int tagId = 1;
-        Tag upperBody = new Tag("Upper Body", tagId++);
-        Tag lowerBody = new Tag("Lower Body", tagId++);
-        Tag abs = new Tag("Abs", tagId++);
-        Tag stretch = new Tag("Stretch", tagId++);
-        Tag cardio = new Tag("Cardio", tagId++);
+        Tag upperBody = new Tag("Upper Body");
+        Tag lowerBody = new Tag("Lower Body");
+        Tag abs = new Tag("Abs");
+        Tag stretch = new Tag("Stretch");
+        Tag cardio = new Tag("Cardio");
 
-        int exerciseId = 1;
-        Exercise pushups = new Exercise(context.getString(R.string.push_ups), exerciseId++);
-        Exercise dips = new Exercise(context.getString(R.string.dips), exerciseId++);
-        Exercise pullUps = new Exercise(context.getString(R.string.pull_ups), exerciseId++);
-        Exercise chinUps = new Exercise(context.getString(R.string.chin_ups), exerciseId++);
+        Exercise pushups = new Exercise(context.getString(R.string.push_ups));
+        Exercise dips = new Exercise(context.getString(R.string.dips));
+        Exercise pullUps = new Exercise(context.getString(R.string.pull_ups));
+        Exercise chinUps = new Exercise(context.getString(R.string.chin_ups));
 
-        Exercise squats = new Exercise(context.getString(R.string.squats), exerciseId++);
+        Exercise squats = new Exercise(context.getString(R.string.squats));
         Exercise singleLegDeadlifts =
-                new Exercise(context.getString(R.string.single_leg_deadlifts), exerciseId++);
-        Exercise calfRaises = new Exercise(context.getString(R.string.calf_raises), exerciseId++);
-        Exercise lunges = new Exercise(context.getString(R.string.lunges), exerciseId++);
-        Exercise wallSit = new Exercise(context.getString(R.string.wall_sit), exerciseId++);
+                new Exercise(context.getString(R.string.single_leg_deadlifts));
+        Exercise calfRaises = new Exercise(context.getString(R.string.calf_raises));
+        Exercise lunges = new Exercise(context.getString(R.string.lunges));
+        Exercise wallSit = new Exercise(context.getString(R.string.wall_sit));
 
-        Exercise sitUps = new Exercise(context.getString(R.string.sit_ups), exerciseId++);
-        Exercise legLifts = new Exercise(context.getString(R.string.leg_lifts), exerciseId++);
-        Exercise plank = new Exercise(context.getString(R.string.plank), exerciseId++);
-        Exercise crunches = new Exercise(context.getString(R.string.crunches), exerciseId++);
+        Exercise sitUps = new Exercise(context.getString(R.string.sit_ups));
+        Exercise legLifts = new Exercise(context.getString(R.string.leg_lifts));
+        Exercise plank = new Exercise(context.getString(R.string.plank));
+        Exercise crunches = new Exercise(context.getString(R.string.crunches));
 
         Exercise standingHamstringStretch =
-                new Exercise(context.getString(R.string.standing_hamstring_stretch), exerciseId++);
-        Exercise calfStretch = new Exercise(context.getString(R.string.calf_stretch), exerciseId++);
-        Exercise butterflyStretch = new Exercise(context.getString(R.string.butterfly_stretch), exerciseId++);
-        Exercise quadStretch = new Exercise(context.getString(R.string.quad_stretch), exerciseId++);
+                new Exercise(context.getString(R.string.standing_hamstring_stretch));
+        Exercise calfStretch = new Exercise(context.getString(R.string.calf_stretch));
+        Exercise butterflyStretch = new Exercise(context.getString(R.string.butterfly_stretch));
+        Exercise quadStretch = new Exercise(context.getString(R.string.quad_stretch));
+        Exercise chestStretch = new Exercise(context.getString(R.string.chest_stretch));
 
-        Exercise jumpingJacks = new Exercise(context.getString(R.string.jumping_jacks), exerciseId++);
+        Exercise jumpingJacks = new Exercise(context.getString(R.string.jumping_jacks));
+        Exercise jogInPlace = new Exercise(context.getString(R.string.jog_in_place));
 
         db.tagExercises(upperBody, pushups, dips, pullUps, chinUps);
         db.tagExercises(lowerBody,
@@ -119,17 +127,15 @@ public abstract class ERDatabase extends RoomDatabase {
                         singleLegDeadlifts,
                         calfRaises,
                         lunges,
-                        wallSit,
-                        standingHamstringStretch,
-                        quadStretch,
-                        calfStretch);
+                        wallSit);
         db.tagExercises(abs, sitUps, crunches, legLifts, plank);
         db.tagExercises(stretch,
                         standingHamstringStretch,
                         calfStretch,
                         butterflyStretch,
+                        chestStretch,
                         quadStretch);
-        db.tagExercises(cardio, jumpingJacks);
+        db.tagExercises(cardio, jumpingJacks, jogInPlace);
     }
 
     private void tagExercises(Tag tag, Exercise... exercises) {

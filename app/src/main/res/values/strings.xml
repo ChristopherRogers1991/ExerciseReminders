@@ -27,6 +27,7 @@
     <string name="dips">Dips</string>
     <string name="jumping_jacks">Jumping Jacks</string>
     <string name="quad_stretch">Quad Stretch</string>
+    <string name="chest_stretch">Corner Chest Stretch</string>
     <string name="calf_raises">Calf Raises</string>
     <string name="lunges">Lunges</string>
     <string name="wall_sit">Wall-sit</string>
@@ -67,4 +68,5 @@
     <string name="next">Next:</string>
     <string name="tag_name">Tag Name</string>
     <string name="disabled_by">"Disabled By: %s"</string>
+    <string name="jog_in_place">Jog in Place</string>
 </resources>
