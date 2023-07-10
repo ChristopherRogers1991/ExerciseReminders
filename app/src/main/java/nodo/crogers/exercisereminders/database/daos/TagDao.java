@@ -51,7 +51,7 @@ public interface TagDao {
            UPDATE
                exercise
            SET
-               count = (SELECT min(count) from enabled_exercises)
+               count = (SELECT IFNULL(min(count), 0) from enabled_exercises)
            WHERE id IN (SELECT exercise.id FROM exercises_with_tags WHERE tagId = :tagId)
     """)
     void updateExerciseCounts(int tagId);
