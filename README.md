@@ -19,6 +19,9 @@ Android notifications remininding the user to do simple exercises at regular int
 ### Manage Alarms
 <img src=Screenshots/manage_alarms.png width=50%/>
 
+### Darkmode Support
+<img src=Screenshots/darkmode.png width=50%/>
+
 # Support Development
 
 If you appreciate this app, and would like to support its development, consider
