@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
@@ -145,8 +144,6 @@ public class ExerciseAlarm extends BroadcastReceiver {
         }
 
         next = next.truncatedTo(ChronoUnit.MINUTES);
-
-        Log.d("SCHEDULE", "nextTime: " + next);
 
         return next
                 .toInstant()
