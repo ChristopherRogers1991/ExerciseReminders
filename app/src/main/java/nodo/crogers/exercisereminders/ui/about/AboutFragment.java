@@ -25,6 +25,11 @@ public class AboutFragment extends Fragment {
         binding = FragmentAboutBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        Spanned userGuideLinkHtml = Html.fromHtml(getString(R.string.userGuideLink), Html.FROM_HTML_MODE_LEGACY);
+        TextView userGuideLink = root.findViewById(R.id.userGuideLinkTextView);
+        userGuideLink.setText(userGuideLinkHtml);
+        userGuideLink.setMovementMethod(LinkMovementMethod.getInstance());
+
         Spanned sourceCodeLinkHtml = Html.fromHtml(getString(R.string.sourceCodeLink), Html.FROM_HTML_MODE_LEGACY);
         TextView sourceCodeLink = root.findViewById(R.id.sourceCodeLinkTextView);
         sourceCodeLink.setText(sourceCodeLinkHtml);
