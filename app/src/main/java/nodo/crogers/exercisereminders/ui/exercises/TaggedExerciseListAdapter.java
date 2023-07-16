@@ -1,6 +1,7 @@
 package nodo.crogers.exercisereminders.ui.exercises;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -108,10 +109,11 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
+    @SuppressLint("InflateParams")
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
         Context context = parent.getContext();
         LayoutInflater inflater = context.getSystemService(LayoutInflater.class);
-        @SuppressLint("InflateParams") View childView = inflater.inflate(R.layout.expandable_list_exercise, null);
+        View childView = inflater.inflate(R.layout.expandable_list_exercise, null);
         Tag parentTag = sortedTags.get(groupPosition);
         Exercise exercise = taggedExercises.get(parentTag)
                 .get(childPosition);
@@ -125,6 +127,25 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
             } else {
                 ERDatabase.getInstance(context).disableAsync(exercise);
             }
+        });
+        childView.setOnLongClickListener(v -> {
+            View deleteDialogBody = inflater.inflate(R.layout.delete_dialog, null);
+            TextView deleteConfirmation = deleteDialogBody.findViewById(R.id.delete_confirmation);
+            deleteConfirmation.setText(context.getString(R.string.delete_exercise, exercise.name()));
+            AlertDialog deleteDialog = new AlertDialog.Builder(context)
+                    .setTitle(context.getString(R.string.delete))
+                    .setView(deleteDialogBody)
+                    .setCancelable(true)
+                    .setNegativeButton(R.string.cancel, (_dialog, _which) -> {})
+                    .setPositiveButton(R.string.delete, ((dialog, which) -> {
+                        ERDatabase.executorService.execute(() -> {
+                            ERDatabase.getInstance(context).exerciseDao().delete(exercise);
+                        });
+                        dialog.dismiss();
+                    }))
+                    .create();
+            deleteDialog.show();
+            return true;
         });
         TextView disabledByText = childView.findViewById(R.id.listVIew_exerciseDisabledByText);
         disabledByText.setVisibility(View.GONE);

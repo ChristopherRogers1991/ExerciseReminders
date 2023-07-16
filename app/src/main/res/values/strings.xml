@@ -67,6 +67,8 @@
     <string name="create_new_exercise">Create New Exercise</string>
     <string name="next">Next:</string>
     <string name="tag_name">Tag Name</string>
-    <string name="disabled_by">"Disabled By: %s"</string>
+    <string name="disabled_by">Disabled By: %s</string>
+    <string name="delete_exercise">Delete \"%s\"?</string>
+    <string name="delete">Delete</string>
     <string name="jog_in_place">Jog in Place</string>
 </resources>
