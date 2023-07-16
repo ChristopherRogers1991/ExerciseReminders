@@ -15,6 +15,16 @@ import nodo.crogers.exercisereminders.database.entities.Tag;
 
 @Dao
 public interface ExerciseDao {
+
+    String getTagsQuery = """
+               SELECT
+                   *
+               FROM
+                   tag
+               WHERE
+                   tag.id IN (SELECT tagId FROM exercise_to_tag WHERE exerciseId = :exerciseId)
+               ORDER BY tag.name ASC
+            """;
     @Query("SELECT * FROM Exercise WHERE name = :name")
     Exercise getByName(String name);
 
@@ -31,18 +41,17 @@ public interface ExerciseDao {
            """)
     List<Exercise> getEligible();
 
-    @Query("""
-               SELECT
-                   *
-               FROM
-                   tag
-               WHERE
-                   tag.id IN (SELECT tagId FROM exercise_to_tag WHERE exerciseId = :exerciseId)
-               ORDER BY tag.name ASC
-           """)
-    LiveData<List<Tag>> getTags(int exerciseId);
+    @Query(getTagsQuery)
+    LiveData<List<Tag>> getTagsLive(int exerciseId);
 
-    default LiveData<List<Tag>> getTags(Exercise exercise) {
+    @Query(getTagsQuery)
+    List<Tag> getTags(int exerciseId);
+
+    default LiveData<List<Tag>> getTagsLive(Exercise exercise) {
+        return getTagsLive(exercise.id());
+    }
+
+    default List<Tag> getTags(Exercise exercise) {
         return getTags(exercise.id());
     }
 

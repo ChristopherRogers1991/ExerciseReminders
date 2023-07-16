@@ -105,6 +105,25 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
                 expandableListView.expandGroup(groupPosition);
             }
         });
+        groupView.setOnLongClickListener(v -> {
+            View deleteDialogBody = inflater.inflate(R.layout.delete_dialog, null);
+            TextView deleteConfirmation = deleteDialogBody.findViewById(R.id.delete_confirmation);
+            deleteConfirmation.setText(context.getString(R.string.delete_tag, tag.name()));
+            AlertDialog deleteDialog = new AlertDialog.Builder(context)
+                    .setTitle(context.getString(R.string.delete))
+                    .setView(deleteDialogBody)
+                    .setCancelable(true)
+                    .setNegativeButton(R.string.cancel, (_dialog, _which) -> {})
+                    .setPositiveButton(R.string.delete, ((dialog, which) -> {
+                        ERDatabase.executorService.execute(() -> {
+                            ERDatabase.getInstance(context).tagDao().delete(tag);
+                        });
+                        dialog.dismiss();
+                    }))
+                    .create();
+            deleteDialog.show();
+            return true;
+        });
         return groupView;
     }
 
@@ -152,7 +171,7 @@ public class TaggedExerciseListAdapter extends BaseExpandableListAdapter {
         ERDatabase.executorService.execute(() -> {
             LiveData<List<Tag>> exerciseTags = ERDatabase.getInstance(context)
                     .exerciseDao()
-                    .getTags(exercise);
+                    .getTagsLive(exercise);
             disabledByText.post(() -> exerciseTags.observe(lifecycleOwner, tags -> {
                 List<String> disabledTags = tags.stream()
                         .filter(tag -> tag.enabled() == 0)

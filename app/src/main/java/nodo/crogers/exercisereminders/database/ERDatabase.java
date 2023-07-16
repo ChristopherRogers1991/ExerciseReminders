@@ -161,6 +161,22 @@ public abstract class ERDatabase extends RoomDatabase {
                         .toArray());
     }
 
+    public CompletableFuture<Void> deleteTagAndUniqueExercisesAsync(Tag tag) {
+        return CompletableFuture.runAsync(() -> {
+            instance.runInTransaction(() -> {
+                TagDao tagDao = instance.tagDao();
+                ExerciseDao exerciseDao = instance.exerciseDao();
+                List<Exercise> exercises = tagDao.getExercises(tag);
+                for (Exercise exercise : exercises) {
+                    if (exerciseDao.getTags(exercise).size() == 1) {
+                        exerciseDao.delete(exercise);
+                    }
+                }
+                tagDao.delete(tag);
+            });
+        });
+    }
+
     public CompletableFuture<Void> tagExerciseAsync(Exercise exercise, Tag... tags) {
         return CompletableFuture.runAsync(() -> tagExercise(exercise, tags), executorService);
     }
