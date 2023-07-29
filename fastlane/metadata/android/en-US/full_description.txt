@@ -1,4 +1,1 @@
-Using a very simple scheduling scheme (start time, end time, and frequency),
-schedule notifications to remind yourself to perform simple exercises. The bank
-of exercises is configurable - categories and individual exercises can be
-enabled/disabled, added, and deleted.
+<p>Using a very simple scheduling scheme (start time, end time, and frequency), schedule notifications to remind yourself to perform simple exercises. The bank of exercises is configurable - categories and individual exercises can be enabled/disabled, added, and deleted.</p>
