@@ -3,13 +3,10 @@ package nodo.crogers.exercisereminders;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
-import nodo.crogers.exercisereminders.ui.alarms.DayPicker;
 
 public class PreferenceManager {
 

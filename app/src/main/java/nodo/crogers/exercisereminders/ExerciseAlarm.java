@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.time.Clock;
-import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
