@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import java.time.Clock;
+import java.time.DayOfWeek;
 import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -87,10 +88,12 @@ public class ExerciseAlarm extends BroadcastReceiver {
 
     public static void scheduleNext(Context context) {
         // TODO - base the next time on the time the notification _should_ have fone off? (as opposed to when in the window it did go off).
+        PreferenceManager preferenceManager = PreferenceManager.getInstance(context);
+        if (preferenceManager.getEnabledDays().stream().noneMatch(Boolean::booleanValue)) {
+            return;
+        }
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         Intent next = new Intent(context, ExerciseAlarm.class);
-        next.setAction("exercise");
-        next.putExtra("key", "value");
         int requestCode = 0;
         long time = nextTime(context);
 
@@ -103,7 +106,7 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 AlarmManager.RTC_WAKEUP,
                 nextTime(context),
                 pendingIntent);
-        PreferenceManager.getInstance(context).setNextScheduledAlarm(time);
+        preferenceManager.setNextScheduledAlarm(time);
         AlarmsViewModel.nextScheduledAlarm.setValue(time);
 
     }
@@ -125,22 +128,26 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 getTodayAt(preferenceManager.endHour(), preferenceManager.endMinute());
         OffsetDateTime now = OffsetDateTime.now(clock);
 
+        // Monday is 0; Sunday is 6
+        int currentDayOfWeek = now.getDayOfWeek().getValue() - 1;
+        List<Boolean> enabledDays = preferenceManager.getEnabledDays();
+        boolean todayIsEnabled = enabledDays.get(currentDayOfWeek);
+
         OffsetDateTime next;
-        if (now.isBefore(startTime)) {
+        if (todayIsEnabled && now.isBefore(startTime)) {
             next = now
                     .withHour(startHour)
                     .withMinute(startMinute);
         }
-        else if (now.isAfter(endTime)) {
+        else if (!todayIsEnabled || now.isAfter(endTime)) {
             next = now
-                    .plusDays(1)
+                    .plusDays(daysUntilEnabled(currentDayOfWeek, enabledDays))
                     .withHour(startHour)
                     .withMinute(startMinute);
         }
         else {
             int frequency = preferenceManager.frequency();
-            next = now
-                    .plusMinutes(frequency);
+            next = now.plusMinutes(frequency);
         }
 
         next = next.truncatedTo(ChronoUnit.MINUTES);
@@ -151,6 +158,15 @@ public class ExerciseAlarm extends BroadcastReceiver {
 
     }
 
+    private static int daysUntilEnabled(int dayOfWeek, List<Boolean> enabledDays) {
+        for (int i = 1; i <= 7; i++) {
+            if (enabledDays.get((dayOfWeek + i) % 7)) {
+                return i;
+            }
+        }
+        throw new IllegalArgumentException("At least one day must be enabled!");
+    }
+
     private static OffsetDateTime getTodayAt(int hour, int minute) {
         OffsetDateTime now = OffsetDateTime.now(clock);
         return now
@@ -158,4 +174,5 @@ public class ExerciseAlarm extends BroadcastReceiver {
                 .withMinute(minute)
                 .truncatedTo(ChronoUnit.MINUTES);
     }
+
 }

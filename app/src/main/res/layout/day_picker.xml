@@ -7,7 +7,7 @@
     android:layout_height="match_parent">
 
     <ToggleButton
-        android:id="@+id/t0"
+        android:id="@+id/t7"
         android:checked="true"
         android:textOff="S"
         android:textOn="S"
