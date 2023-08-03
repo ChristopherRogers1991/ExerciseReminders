@@ -129,6 +129,7 @@ public class AlarmsFragment extends Fragment {
             nextAlarmTime.setText(dateFormat.format(nextTime));
         });
 
+        DayPicker.initialize(root.findViewById(R.id.daypicker), preferenceManager);
 
         return root;
     }
