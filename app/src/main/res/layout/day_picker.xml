@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Inspired by https://stackoverflow.com/a/45987793 -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ToggleButton
+        android:id="@+id/t7"
+        android:checked="true"
+        android:textOff="@string/sunday_initial"
+        android:textOn="@string/sunday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"/>
+    <ToggleButton
+        android:id="@+id/t1"
+        android:checked="true"
+        android:textOff="@string/monday_initial"
+        android:textOn="@string/monday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"/>
+
+    <ToggleButton
+        android:id="@+id/t2"
+        android:checked="true"
+        android:textOff="@string/tuesday_initial"
+        android:textOn="@string/tuesday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"/>
+
+    <ToggleButton
+        android:id="@+id/t3"
+        android:checked="true"
+        android:textOff="@string/wednesday_initial"
+        android:textOn="@string/wednesday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"/>
+
+    <ToggleButton
+        android:id="@+id/t4"
+        android:checked="true"
+        android:textOff="@string/thursday_initial"
+        android:textOn="@string/thursday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"/>
+
+    <ToggleButton
+        android:id="@+id/t5"
+        android:checked="true"
+        android:textOff="@string/friday_initial"
+        android:textOn="@string/friday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+
+    <Space
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:layout_width="0dp"/>
+
+    <ToggleButton
+        android:id="@+id/t6"
+        android:checked="true"
+        android:textOff="@string/saturday_initial"
+        android:textOn="@string/saturday_initial"
+        style="@style/toggleButton"
+        android:background="@drawable/toggle_background_selector" />
+</LinearLayout>

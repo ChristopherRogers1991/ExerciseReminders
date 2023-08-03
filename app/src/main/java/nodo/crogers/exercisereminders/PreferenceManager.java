@@ -3,7 +3,10 @@ package nodo.crogers.exercisereminders;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class PreferenceManager {
 
@@ -13,6 +16,8 @@ public class PreferenceManager {
     private static final String END_HOUR = "end-hour";
     private static final String END_MINUTE = "end-minute";
     private static final String FREQUENCY = "frequency";
+
+    private static final String DAYS = "days";
 
     private static final String NEXT_SCHEDULED_ALARM = "next-scheduled-alarm";
 
@@ -100,6 +105,20 @@ public class PreferenceManager {
 
     public void setTermsAccepted(boolean accepted) {
         sharedPreferences.edit().putBoolean(TERMS_ACCEPTED, accepted).apply();
+    }
+
+    public void setEnabledDays(List<Boolean> days) {
+        String serialized = days.stream()
+                .map(Object::toString)
+                .collect(Collectors.joining(","));
+        sharedPreferences.edit().putString(DAYS, serialized).apply();
+    }
+
+    public List<Boolean> getEnabledDays() {
+        String serialized = sharedPreferences.getString(DAYS, "true,true,true,true,true,true,true");
+        return Arrays.stream(serialized.split(","))
+                .map(Boolean::parseBoolean)
+                .collect(Collectors.toList());
     }
 
 }
