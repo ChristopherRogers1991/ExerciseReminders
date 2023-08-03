@@ -9,8 +9,8 @@
     <ToggleButton
         android:id="@+id/t7"
         android:checked="true"
-        android:textOff="S"
-        android:textOn="S"
+        android:textOff="@string/sunday_initial"
+        android:textOn="@string/sunday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 
@@ -21,8 +21,8 @@
     <ToggleButton
         android:id="@+id/t1"
         android:checked="true"
-        android:textOff="M"
-        android:textOn="M"
+        android:textOff="@string/monday_initial"
+        android:textOn="@string/monday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 
@@ -34,8 +34,8 @@
     <ToggleButton
         android:id="@+id/t2"
         android:checked="true"
-        android:textOff="T"
-        android:textOn="T"
+        android:textOff="@string/tuesday_initial"
+        android:textOn="@string/tuesday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 
@@ -47,8 +47,8 @@
     <ToggleButton
         android:id="@+id/t3"
         android:checked="true"
-        android:textOff="W"
-        android:textOn="W"
+        android:textOff="@string/wednesday_initial"
+        android:textOn="@string/wednesday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 
@@ -60,8 +60,8 @@
     <ToggleButton
         android:id="@+id/t4"
         android:checked="true"
-        android:textOff="T"
-        android:textOn="T"
+        android:textOff="@string/thursday_initial"
+        android:textOn="@string/thursday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 
@@ -73,8 +73,8 @@
     <ToggleButton
         android:id="@+id/t5"
         android:checked="true"
-        android:textOff="F"
-        android:textOn="F"
+        android:textOff="@string/friday_initial"
+        android:textOn="@string/friday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 
@@ -86,8 +86,8 @@
     <ToggleButton
         android:id="@+id/t6"
         android:checked="true"
-        android:textOff="S"
-        android:textOn="S"
+        android:textOff="@string/saturday_initial"
+        android:textOn="@string/saturday_initial"
         style="@style/toggleButton"
         android:background="@drawable/toggle_background_selector" />
 </LinearLayout>
