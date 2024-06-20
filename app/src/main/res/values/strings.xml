@@ -62,6 +62,10 @@
     <string name="random_exercise">Random Exercise</string>
     <string name="resume">Resume</string>
 
+    <string name="allow_exact_alarms">Allow Exact Alarms</string>
+    <string name="alarms_dialog">To show notifications at the correct time, this app needs permission to schedule exact reminders. Click the button below to continue to the settings page, select "Exercise Reminders", and toggle the setting on.</string>
+    <string name="go_to_permissions">Go to Permissions</string>
+
     <string name="notifications_paused">Notifications Paused</string>
     <string name="notifications_resumed">Notifications Resumed</string>
     <string name="minimum_frequency">Minimum: 10 minutes</string>

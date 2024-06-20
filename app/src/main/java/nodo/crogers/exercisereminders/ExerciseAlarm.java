@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 
 import java.time.Clock;
 import java.time.OffsetDateTime;
@@ -86,6 +87,9 @@ public class ExerciseAlarm extends BroadcastReceiver {
     }
 
     public static void scheduleNext(Context context) {
+        if (!hasPermission(context)) {
+            return;
+        }
         // TODO - base the next time on the time the notification _should_ have fone off? (as opposed to when in the window it did go off).
         PreferenceManager preferenceManager = PreferenceManager.getInstance(context);
         if (preferenceManager.getEnabledDays().stream().noneMatch(Boolean::booleanValue)) {
@@ -108,6 +112,14 @@ public class ExerciseAlarm extends BroadcastReceiver {
         preferenceManager.setNextScheduledAlarm(time);
         AlarmsViewModel.nextScheduledAlarm.setValue(time);
 
+    }
+
+    public static boolean hasPermission(Context context) {
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return alarmManager.canScheduleExactAlarms();
+        }
+        return true;
     }
 
     public static void scheduleIfUnscheduled(Context context) {
