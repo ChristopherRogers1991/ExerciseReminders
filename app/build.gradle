@@ -10,8 +10,8 @@ android {
         applicationId "nodo.crogers.exercisereminders"
         minSdk 26
         targetSdk 36
-        versionCode 11
-        versionName "1.7.2"
+        versionCode 12
+        versionName "1.7.3"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -28,6 +28,10 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 }
 
